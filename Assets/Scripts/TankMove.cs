@@ -14,15 +14,13 @@ public class TankMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Move();
-        Shot();
         turretMove();
 	}
 
     //Space 를 누르면 발사
-    void Shot()
+    public void Shot()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && trackCon.reload == false)
+        if (trackCon.reload == false)
         {
             GameObject temp = Instantiate(Bomb, trackCon.Location.transform.position, Quaternion.Euler(trackCon.Location.transform.rotation.x + 90, trackCon.Location.transform.rotation.y + trackCon.tankHead_degree, trackCon.Location.transform.rotation.z + trackCon.barrel_degree)) as GameObject;
             temp.GetComponent<Rigidbody>().velocity = trackCon.Location.transform.forward * power;
@@ -31,13 +29,13 @@ public class TankMove : MonoBehaviour {
     }
 
     //마우스를 누른 곳으로 이동
-    void Move()
+    public void Move(Vector3 position)
     {
         float step = speed * Time.deltaTime;
         RaycastHit hitobj;
         if (Input.GetMouseButton(0))
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = mainCamera.ScreenPointToRay(position);
             if (Physics.Raycast(ray, out hitobj, Mathf.Infinity))
             {
                 if (hitobj.transform.tag != "tank")
@@ -58,23 +56,23 @@ public class TankMove : MonoBehaviour {
             trackCon.rightSpeed = 0f;
         }
     }
-    void turretMove()
+    void turretMove(Vector3 deltaPosition)
     {
-        if (Input.GetKey(KeyCode.W))
+        if (deltaPosition.y>0)
         {
             if (trackCon.barrel_degree < 26)
             {
                 trackCon.barrel_degree += 0.5f;
             }
         }
-        if (Input.GetKey(KeyCode.S))
+        if (deltaPosition.y<0)
         {
             if (trackCon.barrel_degree > 0)
             {
                 trackCon.barrel_degree -= 0.5f;
             }
         }
-        if (Input.GetKey(KeyCode.A))
+        if (deltaPosition.x<0)
         {
             if (trackCon.tankHead_degree == -180)
             {
@@ -83,7 +81,7 @@ public class TankMove : MonoBehaviour {
             trackCon.tankHead_degree -= 1f;
 
         }
-        if (Input.GetKey(KeyCode.D))
+        if (deltaPosition.x>0)
         {
             if(trackCon.tankHead_degree == 180)
             {

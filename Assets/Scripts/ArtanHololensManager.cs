@@ -16,15 +16,7 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
     {
         get
         {
-            var dir = gazeManager.Position - cam.transform.position;
-            RaycastHit hit;
-            var result = Physics.Raycast(cam.transform.position, dir, out hit, Mathf.Infinity);
-            if (result == true) {
-                return hit.point;
-            }
-            else {
-                return new Vector3();
-            }
+            return gazeManager.Position;
         }
     }
 

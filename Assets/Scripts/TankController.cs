@@ -28,7 +28,7 @@ public class TankController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (hm.Connected == false) {
+        if (hm == null) {
             float deltaX = Input.GetAxis("Horizontal");
             float deltaY = Input.GetAxis("Vertical");
             if (Input.GetKeyUp(KeyCode.Space))

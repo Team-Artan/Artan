@@ -74,7 +74,6 @@ public class TankController : MonoBehaviour {
             Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
             this.transform.rotation = rot;
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
-            print("asdaf");
             Physics.Raycast(transform.position, Vector3.down, out hitData);
             if (Physics.Raycast(transform.position, Vector3.down, 2)) {
                 transform.rotation = Quaternion.FromToRotation(transform.up, hitData.normal) * transform.rotation;

@@ -263,18 +263,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &317613346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 317613337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e51d7e4929564f445a05c6fd8d51b5c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PositionScale: {x: 2, y: 2, z: 4}
 --- !u!1001 &529615629
 Prefab:
   m_ObjectHideFlags: 0
@@ -501,6 +489,7 @@ GameObject:
   - component: {fileID: 611820849}
   - component: {fileID: 611820853}
   - component: {fileID: 611820852}
+  - component: {fileID: 611820854}
   m_Layer: 0
   m_Name: GestureManager
   m_TagString: Untagged
@@ -584,6 +573,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StoredStabilitySamples: 60
+--- !u!114 &611820854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 611820848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef26a362f41c5248aca879be2a5f04b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &950425381
 GameObject:
   m_ObjectHideFlags: 0

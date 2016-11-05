@@ -26,15 +26,15 @@ public class PositionGuide : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         transform.position = ArtanHololensManager.Instance.GazePosition;
-        if (transform.position.y>standardHeight)
+        if (transform.position.y > standardHeight) {
             material.color = hexToColor("1AEE8440");
+            if (ArtanHololensManager.Instance.Tapped == true) {
+                Instantiate(player, transform.position, Quaternion.identity);
+                GuidePanel.SetActive(false);
+                Destroy(this.gameObject);
+            }
+        }
         else
             material.color = hexToColor("F0252552");
-        if(ArtanHololensManager.Instance.Tapped == true) {
-            Instantiate(player, transform.position, Quaternion.identity);
-            GuidePanel.SetActive(false);
-            Destroy(this.gameObject);
-        }
-
     }
 }

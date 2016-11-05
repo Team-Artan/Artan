@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 114474212669048472}
   - component: {fileID: 114374606797329418}
   - component: {fileID: 114116810169925382}
+  - component: {fileID: 114142837670051066}
+  - component: {fileID: 114825385189398996}
   m_Layer: 0
   m_Name: SpatialMapping
   m_TagString: Untagged
@@ -54,6 +56,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomModel: {fileID: 0}
+--- !u!114 &114142837670051066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1810011309518646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f2795b3e072e1745a4f8c670d64284f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RecognizerStart: 0
+  KeywordsAndResponses:
+  - Keyword: Begin
+    KeyCode: 0
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114825385189398996}
+          m_MethodName: BeginMapping
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+  - Keyword: Stop
+    KeyCode: 0
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114825385189398996}
+          m_MethodName: EndMapping
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
 --- !u!114 &114374606797329418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,3 +135,14 @@ MonoBehaviour:
   TrianglesPerCubicMeter: 500
   Extents: {x: 10, y: 10, z: 10}
   TimeBetweenUpdates: 3.5
+--- !u!114 &114825385189398996
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1810011309518646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ae7cc1bbd43f84e950f25fe9737c6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

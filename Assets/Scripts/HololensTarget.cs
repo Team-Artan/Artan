@@ -5,6 +5,8 @@ using UnityEngine.VR.WSA.Input;
 public class HololensTarget : MonoBehaviour {
     private GestureManager gestureManager;
 
+    private bool prevSelected;
+
     public bool IsGazing { get; private set; }
     public bool IsPressed { get; private set; }
     public bool IsManipulating { get; private set; }
@@ -12,6 +14,8 @@ public class HololensTarget : MonoBehaviour {
 
     private void Start()
     {
+        prevSelected = false;
+
         IsGazing = false;
         IsPressed = false;
         IsManipulating = false;
@@ -25,7 +29,13 @@ public class HololensTarget : MonoBehaviour {
 
     private void Update()
     {
-        if (IsSelected == true) {
+        // Selected in this frame
+        if(prevSelected == false && IsSelected == true) {
+            prevSelected = true;
+        }
+        // Selected in previous frame.  Deselect
+        else if(prevSelected == true) {
+            prevSelected = false;
             IsSelected = false;
         }
     }

@@ -13,7 +13,6 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
 
     private List<string> cmdList = new List<string>();
 
-    private bool prevTapped = false;
     private Vector3 prevTapHandPosition;
 
     public bool Connected { get { return true; } }
@@ -48,7 +47,6 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
         prevTapHandPosition = new Vector3();
         TapHandDeltaMove = new Vector3();
 
-        prevTapped = false;
         Tapped = false;
         Holding = false;
 
@@ -57,14 +55,6 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
 
     private void Update()
     {
-        if (prevTapped == false && Tapped == true) {
-            prevTapped = true;
-        }
-        else if (prevTapped == true) {
-            prevTapped = false;
-            Tapped = false;
-        }
-
         if (Holding == true) {
             TapHandDeltaMove = handsManager.ManipulationHandPosition - prevTapHandPosition;
             prevTapHandPosition = handsManager.ManipulationHandPosition;
@@ -75,6 +65,7 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
 
     private void LateUpdate()
     {
+        Tapped = false;
         cmdList.Clear();
     }
 

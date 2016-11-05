@@ -1,4 +1,6 @@
-﻿using HoloToolkit.Unity;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using HoloToolkit.Unity;
 using UnityEngine;
 using UnityEngine.VR.WSA.Input;
 
@@ -9,6 +11,8 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
 
     private Camera cam;
 
+    private List<string> cmdList = new List<string>();
+
     private bool prevTapped = false;
     private Vector3 prevTapHandPosition;
 
@@ -17,6 +21,7 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
     public bool Holding { get; private set; }
     public HololensTarget TargetObject { get; private set; }
     public Vector3 TapHandDeltaMove { get; private set; }
+    public ReadOnlyCollection<string> CmdList { get { return new ReadOnlyCollection<string>(cmdList); } }
 
     public Vector3 GazePosition
     {
@@ -68,6 +73,11 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
         Debug.DrawRay(cam.transform.position, GazePosition - cam.transform.position);
     }
 
+    private void LateUpdate()
+    {
+        cmdList.Clear();
+    }
+
     private void OnTap(InteractionSourceKind source, int tapCount, Ray headRay)
     {
         Tapped = true;
@@ -94,5 +104,10 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
         Holding = false;
         TargetObject = null;
         prevTapHandPosition.Set(0, 0, 0);
+    }
+
+    public void OnVoiceCommand(string cmd)
+    {
+        cmdList.Add(cmd);
     }
 }

@@ -15,6 +15,7 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
     public bool Connected { get { return true; } }
     public bool Tapped { get; private set; }
     public bool Holding { get; private set; }
+    public HololensTarget TargetObject { get; private set; }
     public Vector3 TapHandDeltaMove { get; private set; }
 
     public Vector3 GazePosition
@@ -44,6 +45,7 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
 
         prevTapped = false;
         Tapped = false;
+        Holding = false;
 
         cam = Camera.main;
     }
@@ -69,13 +71,14 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
     private void OnTap(InteractionSourceKind source, int tapCount, Ray headRay)
     {
         Tapped = true;
+        TargetObject = gazeManager.FocusedObject.GetComponent<HololensTarget>();
     }
 
     private void OnHoldBegin(InteractionSourceKind source, Ray headRay)
     {
-        var holo = gazeManager.FocusedObject.GetComponent<HololensTarget>();
-        if (holo != null) {
-            holo.SetHeld(true);
+        TargetObject = gazeManager.FocusedObject.GetComponent<HololensTarget>();
+        if (TargetObject != null) {
+            TargetObject.SetHeld(true);
         }
 
         Holding = true;
@@ -84,12 +87,12 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
 
     private void OnHoldEnd(InteractionSourceKind source, Ray headRay)
     {
-        var holo = gazeManager.FocusedObject.GetComponent<HololensTarget>();
-        if (holo != null) {
-            holo.SetHeld(false);
+        if (TargetObject != null) {
+            TargetObject.SetHeld(false);
         }
 
         Holding = false;
+        TargetObject = null;
         prevTapHandPosition.Set(0, 0, 0);
     }
 }

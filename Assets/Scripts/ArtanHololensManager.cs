@@ -53,6 +53,16 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
         cam = Camera.main;
     }
 
+    private void OnDestroy()
+    {
+        gestureRecognizer.TappedEvent -= OnTap;
+        gestureRecognizer.HoldStartedEvent -= OnHoldBegin;
+        gestureRecognizer.HoldCompletedEvent -= OnHoldEnd;
+        gestureRecognizer.HoldCanceledEvent -= OnHoldEnd;
+
+        gestureRecognizer.StopCapturingGestures();
+    }
+
     private void Update()
     {
         if (Holding == true) {

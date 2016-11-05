@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CapsuleCollider))]
 public class Bullet : MonoBehaviour {
     private Vector3 prePosition = Vector3.zero;
     private Rigidbody rigid;
@@ -11,8 +13,8 @@ public class Bullet : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        if (rigid.velocity!=Vector3.zero&&prePosition!=null) {
+	void FixedUpdate () {
+        if (rigid.velocity!=Vector3.zero) {
             Vector3 relativePos = transform.position - prePosition;
             Quaternion rotation = Quaternion.LookRotation(relativePos);
             transform.rotation = rotation * Quaternion.Euler(90,0,0);

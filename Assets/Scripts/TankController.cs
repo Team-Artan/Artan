@@ -37,7 +37,7 @@ public class TankController : MonoBehaviour {
                 }
             }
         }
-	}
+    }
     public void Shoot(float power,int bounceCount) {
         GameObject bullet = Instantiate(Bullet) as GameObject;
         bullet.transform.position = Bullet.transform.position;
@@ -70,12 +70,13 @@ public class TankController : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
         while (Vector3.Distance(this.transform.position, Point) > 1f) {
-            RaycastHit hitData;
             Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
             this.transform.rotation = rot;
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            RaycastHit hitData;
             Physics.Raycast(transform.position, Vector3.down, out hitData);
             if (Physics.Raycast(transform.position, Vector3.down, 2)) {
+                print(Quaternion.FromToRotation(transform.up, hitData.normal));
                 transform.rotation = Quaternion.FromToRotation(transform.up, hitData.normal) * transform.rotation;
             }
             yield return new WaitForEndOfFrame();

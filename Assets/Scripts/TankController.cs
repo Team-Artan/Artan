@@ -50,11 +50,17 @@ public class TankController : MonoBehaviour {
             }
         }
         else {
+            // Move
             if (MoveCoroutine == null && hm.Tapped == true) {
                 Debug.Log("Tank Move");
                 movePos = hm.GazePosition;
                 Debug.Log(movePos);
                 MoveCoroutine = StartCoroutine(PointMove(movePos));
+            }
+
+            // Rotate
+            if (hm.Holding == true) {
+                HeadRotate(hm.TapHandDeltaMove);
             }
 
             Debug.DrawRay(transform.position, movePos - transform.position);
@@ -74,8 +80,9 @@ public class TankController : MonoBehaviour {
     }
     public void HeadRotate(Vector3 deltaPos)
     {
+        deltaPos *= 100;
         TankHead.transform.Rotate(new Vector3(0, deltaPos.x, 0));
-        TankCannon.transform.Rotate(new Vector3(deltaPos.y, 0, 0));
+        TankCannon.transform.Rotate(new Vector3(deltaPos.z, 0, 0));
         float cannonAngle = TankCannon.transform.localRotation.eulerAngles.x;
         if (cannonAngle > 180f)
             cannonAngle -= 360;

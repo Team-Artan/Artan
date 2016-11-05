@@ -10,35 +10,59 @@ public class TankController : MonoBehaviour {
     public GameObject Bullet;
 
     private Coroutine MoveCoroutine;
-    
+
     private float speed = 7f;
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        float deltaX = Input.GetAxis("Horizontal");
-        float deltaY = Input.GetAxis("Vertical");
-        if (Input.GetKeyUp(KeyCode.Space))
-            Shoot(1000f,0);
-        Vector3 deltaPos = new Vector3(deltaX, deltaY, 0);
-        HeadRotate(deltaPos);
-        if (Input.GetMouseButtonUp(0)) {
-            Vector3 pos = Input.mousePosition;
-            Ray ray = Camera.main.ScreenPointToRay(pos);
-            RaycastHit[] hits = Physics.RaycastAll(ray);
-            for(int i=0 ;i<hits.Length ; ++i) {
-                RaycastHit hit = hits[i];
-                if (hit.collider.gameObject.name.Equals("Terrain")) {
-                    if (MoveCoroutine != null)
-                        StopCoroutine(MoveCoroutine);
-                    MoveCoroutine = StartCoroutine(PointMove(hit.point));
+
+    private ArtanHololensManager hm;
+    private HololensTarget holo;
+    private Vector3 movePos;
+
+    // Use this for initialization
+    void Start()
+    {
+        hm = ArtanHololensManager.Instance;
+        holo = GetComponent<HololensTarget>();
+        movePos = new Vector3();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (hm.Connected == false) {
+            float deltaX = Input.GetAxis("Horizontal");
+            float deltaY = Input.GetAxis("Vertical");
+            if (Input.GetKeyUp(KeyCode.Space))
+                Shoot(1000f, 0);
+            Vector3 deltaPos = new Vector3(deltaX, deltaY, 0);
+            HeadRotate(deltaPos);
+            if (Input.GetMouseButtonUp(0)) {
+                Vector3 pos = Input.mousePosition;
+                Ray ray = Camera.main.ScreenPointToRay(pos);
+                RaycastHit[] hits = Physics.RaycastAll(ray);
+                for (int i = 0; i < hits.Length; ++i) {
+                    RaycastHit hit = hits[i];
+                    if (hit.collider.gameObject.name.Equals("Terrain")) {
+                        if (MoveCoroutine != null)
+                            StopCoroutine(MoveCoroutine);
+                        MoveCoroutine = StartCoroutine(PointMove(hit.point));
+                    }
                 }
             }
         }
+        else {
+            if (MoveCoroutine == null && hm.Tapped == true) {
+                Debug.Log("Tank Move");
+                movePos = hm.GazePosition;
+                Debug.Log(movePos);
+                MoveCoroutine = StartCoroutine(PointMove(movePos));
+            }
+
+            Debug.DrawRay(transform.position, movePos - transform.position);
+        }
     }
-    public void Shoot(float power,int bounceCount) {
+
+    public void Shoot(float power, int bounceCount)
+    {
         GameObject bullet = Instantiate(Bullet) as GameObject;
         bullet.transform.position = Bullet.transform.position;
         bullet.transform.rotation = Bullet.transform.rotation;
@@ -48,27 +72,30 @@ public class TankController : MonoBehaviour {
         bulletRigid.isKinematic = false;
         bulletRigid.AddRelativeForce(Vector3.up * power);
     }
-    public void HeadRotate(Vector3 deltaPos) {
+    public void HeadRotate(Vector3 deltaPos)
+    {
         TankHead.transform.Rotate(new Vector3(0, deltaPos.x, 0));
-        TankCannon.transform.Rotate(new Vector3(deltaPos.y,0, 0));
+        TankCannon.transform.Rotate(new Vector3(deltaPos.y, 0, 0));
         float cannonAngle = TankCannon.transform.localRotation.eulerAngles.x;
         if (cannonAngle > 180f)
             cannonAngle -= 360;
         if (cannonAngle < -25f)
             TankCannon.transform.localRotation = Quaternion.Euler(new Vector3(-25f, 0, 0));
         else if (cannonAngle > 25f)
-            TankCannon.transform.localRotation = Quaternion.Euler(new Vector3(25f, 0,0));
+            TankCannon.transform.localRotation = Quaternion.Euler(new Vector3(25f, 0, 0));
     }
     public IEnumerator PointMove(Vector3 Point)
     {
-        float distanceX = Point.x-this.transform.position.x;
-        float distanceZ = Point.z-this.transform.position.z;
+        float distanceX = Point.x - this.transform.position.x;
+        float distanceZ = Point.z - this.transform.position.z;
         float angle = Mathf.Atan2(distanceX, distanceZ) * Mathf.Rad2Deg;
         Quaternion target = Quaternion.Euler(0, angle, 0);
-        while (Quaternion.Angle(this.transform.rotation,target)>0.01f) {
-            this.transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 90f*Time.deltaTime);
+
+        while (Quaternion.Angle(this.transform.rotation, target) > 0.01f) {
+            this.transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 90f * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
+
         while (Vector3.Distance(this.transform.position, Point) > 1f) {
             Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
             this.transform.rotation = rot;
@@ -76,11 +103,11 @@ public class TankController : MonoBehaviour {
             RaycastHit hitData;
             Physics.Raycast(transform.position, Vector3.down, out hitData);
             if (Physics.Raycast(transform.position, Vector3.down, 2)) {
-                print(Quaternion.FromToRotation(transform.up, hitData.normal));
                 transform.rotation = Quaternion.FromToRotation(transform.up, hitData.normal) * transform.rotation;
             }
             yield return new WaitForEndOfFrame();
         }
+
+        MoveCoroutine = null;
     }
 }
-    

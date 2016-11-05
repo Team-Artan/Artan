@@ -3,13 +3,11 @@ using UnityEngine;
 using UnityEngine.VR.WSA.Input;
 
 public class HololensTarget : MonoBehaviour {
-    private GestureManager gestureManager;
-
     private bool prevSelected;
 
     public bool IsGazing { get; private set; }
     public bool IsPressed { get; private set; }
-    public bool IsManipulating { get; private set; }
+    public bool IsHeld { get; private set; }
     public bool IsSelected { get; private set; }
 
     private void Start()
@@ -18,13 +16,8 @@ public class HololensTarget : MonoBehaviour {
 
         IsGazing = false;
         IsPressed = false;
-        IsManipulating = false;
+        IsHeld = false;
         IsSelected = false;
-
-        gestureManager = GestureManager.Instance;
-        gestureManager.OnManipulationStarted += BeginManipulation;
-        gestureManager.OnManipulationCompleted += EndManipulation;
-        gestureManager.OnManipulationCanceled += EndManipulation;
     }
 
     private void Update()
@@ -65,13 +58,8 @@ public class HololensTarget : MonoBehaviour {
         IsSelected = true;
     }
 
-    private void BeginManipulation(InteractionSourceKind sourceKind)
+    public void SetHeld(bool held)
     {
-        IsManipulating = true;
-    }
-
-    private void EndManipulation(InteractionSourceKind sourceKind)
-    {
-        IsManipulating = false;
+        IsHeld = held;
     }
 }

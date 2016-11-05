@@ -73,14 +73,22 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
 
     private void OnHoldBegin(InteractionSourceKind source, Ray headRay)
     {
-        Debug.Log("Hold begin");
+        var holo = gazeManager.FocusedObject.GetComponent<HololensTarget>();
+        if (holo != null) {
+            holo.SetHeld(true);
+        }
+
         Holding = true;
         prevTapHandPosition = handsManager.ManipulationHandPosition;
     }
 
     private void OnHoldEnd(InteractionSourceKind source, Ray headRay)
     {
-        Debug.Log("Hold end");
+        var holo = gazeManager.FocusedObject.GetComponent<HololensTarget>();
+        if (holo != null) {
+            holo.SetHeld(false);
+        }
+
         Holding = false;
         prevTapHandPosition.Set(0, 0, 0);
     }

@@ -7,6 +7,7 @@ public class TankController : MonoBehaviour {
 
     public GameObject TankHead;
     public GameObject TankCannon;
+    public GameObject Bullet;
 
     private Coroutine MoveCoroutine;
     
@@ -19,6 +20,8 @@ public class TankController : MonoBehaviour {
 	void Update () {
         float deltaX = Input.GetAxis("Horizontal");
         float deltaY = Input.GetAxis("Vertical");
+        if (Input.GetKeyUp(KeyCode.Space))
+            Shoot(1000f,0);
         Vector3 deltaPos = new Vector3(deltaX, deltaY, 0);
         HeadRotate(deltaPos);
         if (Input.GetMouseButtonUp(0)) {
@@ -35,6 +38,16 @@ public class TankController : MonoBehaviour {
             }
         }
 	}
+    public void Shoot(float power,int bounceCount) {
+        GameObject bullet = Instantiate(Bullet) as GameObject;
+        bullet.transform.position = Bullet.transform.position;
+        bullet.transform.rotation = Bullet.transform.rotation;
+        bullet.GetComponent<MeshRenderer>().enabled = true;
+        bullet.GetComponent<CapsuleCollider>().isTrigger = true;
+        Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
+        bulletRigid.isKinematic = false;
+        bulletRigid.AddRelativeForce(Vector3.up * power);
+    }
     public void HeadRotate(Vector3 deltaPos) {
         TankHead.transform.Rotate(new Vector3(0, deltaPos.x, 0));
         TankCannon.transform.Rotate(new Vector3(deltaPos.y,0, 0));
@@ -57,11 +70,11 @@ public class TankController : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
         while (Vector3.Distance(this.transform.position, Point) > 1f) {
-        print(Vector3.Distance(this.transform.position, Point));
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
             RaycastHit hitData;
             Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
             this.transform.rotation = rot;
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            print("asdaf");
             Physics.Raycast(transform.position, Vector3.down, out hitData);
             if (Physics.Raycast(transform.position, Vector3.down, 2)) {
                 transform.rotation = Quaternion.FromToRotation(transform.up, hitData.normal) * transform.rotation;
@@ -70,3 +83,4 @@ public class TankController : MonoBehaviour {
         }
     }
 }
+    

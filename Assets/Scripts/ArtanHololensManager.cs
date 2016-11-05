@@ -5,12 +5,17 @@ using UnityEngine.VR.WSA.Input;
 public class ArtanHololensManager : Singleton<ArtanHololensManager> {
     private GazeManager gazeManager;
     private GestureRecognizer gestureRecognizer;
+    private HandsManager handsManager;
+
     private Camera cam;
 
     private bool prevTapped = false;
+    private Vector3 prevTapHandPosition;
 
     public bool Connected { get { return true; } }
     public bool Tapped { get; private set; }
+    public bool Holding { get; private set; }
+    public Vector3 TapHandDeltaMove { get; private set; }
 
     public Vector3 GazePosition
     {
@@ -27,8 +32,15 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
         gestureRecognizer = new GestureRecognizer();
         gestureRecognizer.SetRecognizableGestures(GestureSettings.Tap | GestureSettings.Hold);
         gestureRecognizer.TappedEvent += OnTap;
+        gestureRecognizer.HoldStartedEvent += OnHoldBegin;
+        gestureRecognizer.HoldCompletedEvent += OnHoldEnd;
+        gestureRecognizer.HoldCanceledEvent += OnHoldEnd;
 
         gestureRecognizer.StartCapturingGestures();
+
+        handsManager = HandsManager.Instance;
+        prevTapHandPosition = new Vector3();
+        TapHandDeltaMove = new Vector3();
 
         prevTapped = false;
         Tapped = false;
@@ -46,11 +58,30 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
             Tapped = false;
         }
 
+        if (Holding == true) {
+            TapHandDeltaMove = handsManager.ManipulationHandPosition - prevTapHandPosition;
+            prevTapHandPosition = handsManager.ManipulationHandPosition;
+        }
+
         Debug.DrawRay(cam.transform.position, GazePosition - cam.transform.position);
     }
 
     private void OnTap(InteractionSourceKind source, int tapCount, Ray headRay)
     {
         Tapped = true;
+    }
+
+    private void OnHoldBegin(InteractionSourceKind source, Ray headRay)
+    {
+        Debug.Log("Hold begin");
+        Holding = true;
+        prevTapHandPosition = handsManager.ManipulationHandPosition;
+    }
+
+    private void OnHoldEnd(InteractionSourceKind source, Ray headRay)
+    {
+        Debug.Log("Hold end");
+        Holding = false;
+        prevTapHandPosition.Set(0, 0, 0);
     }
 }

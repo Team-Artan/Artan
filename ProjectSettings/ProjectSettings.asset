@@ -437,11 +437,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: ProtoType1
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 80ad4d00b94bd301
   metroApplicationDescription: ProtoType1
   wsaImages: {}
   metroTileShortName: 

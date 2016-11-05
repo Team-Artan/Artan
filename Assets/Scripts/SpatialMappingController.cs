@@ -9,4 +9,16 @@ public class SpatialMappingController : MonoBehaviour {
     {
         smm = GetComponent<SpatialMappingManager>();
     }
+
+    public void BeginMapping()
+    {
+        smm.StartObserver();
+        Debug.Log("Begin Mapping");
+    }
+
+    public void EndMapping()
+    {
+        smm.StopObserver();
+        Debug.Log("End Mapping");
+    }
 }

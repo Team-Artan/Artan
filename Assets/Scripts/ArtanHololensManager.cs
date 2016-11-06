@@ -82,14 +82,22 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
     private void OnTap(InteractionSourceKind source, int tapCount, Ray headRay)
     {
         Tapped = true;
-        TargetObject = gazeManager.FocusedObject.GetComponent<HololensTarget>();
+        TargetObject = null;
+
+        if (gazeManager.FocusedObject != null) {
+            TargetObject = gazeManager.FocusedObject.GetComponent<HololensTarget>();
+        }
     }
 
     private void OnHoldBegin(InteractionSourceKind source, Ray headRay)
     {
-        TargetObject = gazeManager.FocusedObject.GetComponent<HololensTarget>();
-        if (TargetObject != null) {
-            TargetObject.SetHeld(true);
+        TargetObject = null;
+
+        if (gazeManager.FocusedObject != null) {
+            TargetObject = gazeManager.FocusedObject.GetComponent<HololensTarget>();
+            if (TargetObject != null) {
+                TargetObject.SetHeld(true);
+            }
         }
 
         Holding = true;

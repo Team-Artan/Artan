@@ -4,6 +4,8 @@ using HoloToolkit.Unity;
 [RequireComponent(typeof(SpatialMappingManager))]
 public class SpatialMappingController : MonoBehaviour {
     private SpatialMappingManager smm;
+    public Canvas canvas;
+    public PositionGuide guide;
 
     private void Start()
     {
@@ -19,6 +21,8 @@ public class SpatialMappingController : MonoBehaviour {
     public void EndMapping()
     {
         smm.StopObserver();
+        guide.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(true);
         Debug.Log("End Mapping");
     }
 }

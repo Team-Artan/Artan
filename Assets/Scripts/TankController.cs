@@ -51,10 +51,13 @@ public class TankController : MonoBehaviour {
         }
         else {
             // Move
-            if (MoveCoroutine == null && hm.Tapped == true) {
-                Debug.Log("Tank Move");
+            if (hm.Tapped == true) {
                 movePos = hm.GazePosition;
-                Debug.Log(movePos);
+
+                if (MoveCoroutine != null) {
+                    StopCoroutine(MoveCoroutine);
+                }
+
                 MoveCoroutine = StartCoroutine(PointMove(movePos));
             }
 

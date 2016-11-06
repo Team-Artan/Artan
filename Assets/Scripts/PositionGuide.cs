@@ -29,7 +29,9 @@ public class PositionGuide : MonoBehaviour {
         if (transform.position.y > standardHeight) {
             material.color = hexToColor("1AEE8440");
             if (ArtanHololensManager.Instance.Tapped == true) {
-                Instantiate(player, transform.position, Quaternion.identity);
+                var obj = Instantiate(player, transform.position, Quaternion.identity);
+                obj.SetActive(true);
+                obj.transform.position = ArtanHololensManager.Instance.GazePosition;
                 GuidePanel.SetActive(false);
                 Destroy(this.gameObject);
             }

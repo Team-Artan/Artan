@@ -11,7 +11,7 @@ public class TankController : MonoBehaviour {
 
     private Coroutine MoveCoroutine;
 
-    private float speed = 7f;
+    private float speed = 0.07f;
 
     private ArtanHololensManager hm;
     private HololensTarget holo;
@@ -103,7 +103,7 @@ public class TankController : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
 
-        while (Vector3.Distance(this.transform.position, Point) > 1f) {
+        while (Vector3.Distance(this.transform.position, Point) > 0.01f) {
             Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
             this.transform.rotation = rot;
             transform.Translate(Vector3.forward * speed * Time.deltaTime);

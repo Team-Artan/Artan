@@ -4,18 +4,22 @@ using HoloToolkit.Unity;
 [RequireComponent(typeof(SpatialMappingManager))]
 public class SpatialMappingController : MonoBehaviour {
     private SpatialMappingManager smm;
+    private Pathfinder pf;
+
     public Canvas canvas;
     public PositionGuide guide;
+
+    public Pathfinder Pf { get { return pf; } }
 
     private void Start()
     {
         smm = GetComponent<SpatialMappingManager>();
+        pf = Pathfinder.Instance;
     }
 
     public void BeginMapping()
     {
         smm.StartObserver();
-        Debug.Log("Begin Mapping");
     }
 
     public void EndMapping()
@@ -23,6 +27,7 @@ public class SpatialMappingController : MonoBehaviour {
         smm.StopObserver();
         guide.gameObject.SetActive(true);
         canvas.gameObject.SetActive(true);
-        Debug.Log("End Mapping");
+
+        pf.CreateMap();
     }
 }

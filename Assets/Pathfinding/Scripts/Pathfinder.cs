@@ -49,17 +49,13 @@ public class Pathfinder : MonoBehaviour
         instance = this;
     }
 
-	
 	void Start () 
     {
         if (Tilesize <= 0)
         {
             Tilesize = 1;
         }
-
-        Pathfinder.Instance.CreateMap();
 	}
-
 
     float overalltimer = 0;
     int iterations = 0;
@@ -101,7 +97,7 @@ public class Pathfinder : MonoBehaviour
     #region map
     //-------------------------------------------------INSTANIATE MAP-----------------------------------------------//
 
-    private void CreateMap()
+    public void CreateMap()
     {
         //Find positions for start and end of map
         int startX  = (int)MapStartPosition.x;

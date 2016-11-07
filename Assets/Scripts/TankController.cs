@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
@@ -9,6 +10,7 @@ public class TankController : MonoBehaviour {
     public GameObject TankCannon;
     public GameObject Bullet;
 
+    private Pathfinding path;
     private Coroutine MoveCoroutine;
 
     private float speed = 0.07f;
@@ -23,6 +25,7 @@ public class TankController : MonoBehaviour {
         hm = ArtanHololensManager.Instance;
         holo = GetComponent<HololensTarget>();
         movePos = new Vector3();
+        path = GetComponent<Pathfinding>();
     }
 
     // Update is called once per frame
@@ -31,20 +34,28 @@ public class TankController : MonoBehaviour {
         if (hm == null) {
             float deltaX = Input.GetAxis("Horizontal");
             float deltaY = Input.GetAxis("Vertical");
-            if (Input.GetKeyUp(KeyCode.Space))
+
+            if (Input.GetKeyUp(KeyCode.Space)) {
                 Shoot(1000f, 0);
+            }
+
             Vector3 deltaPos = new Vector3(deltaX, deltaY, 0);
             HeadRotate(deltaPos);
+
             if (Input.GetMouseButtonUp(0)) {
                 Vector3 pos = Input.mousePosition;
                 Ray ray = Camera.main.ScreenPointToRay(pos);
                 RaycastHit[] hits = Physics.RaycastAll(ray);
+
                 for (int i = 0; i < hits.Length; ++i) {
                     RaycastHit hit = hits[i];
+
                     if (hit.collider.gameObject.name.Equals("Terrain")) {
-                        if (MoveCoroutine != null)
+                        if (MoveCoroutine != null) {
                             StopCoroutine(MoveCoroutine);
-                        MoveCoroutine = StartCoroutine(PointMove(hit.point));
+                        }
+
+                        MoveTo(hit.point);
                     }
                 }
             }
@@ -52,13 +63,7 @@ public class TankController : MonoBehaviour {
         else {
             // Move
             if (hm.Tapped == true) {
-                movePos = hm.GazePosition;
-
-                if (MoveCoroutine != null) {
-                    StopCoroutine(MoveCoroutine);
-                }
-
-                MoveCoroutine = StartCoroutine(PointMove(movePos));
+                MoveTo(hm.GazePosition);
             }
 
             // Rotate
@@ -67,6 +72,20 @@ public class TankController : MonoBehaviour {
             }
 
             Debug.DrawRay(transform.position, movePos - transform.position);
+        }
+    }
+
+    private void MoveTo(Vector3 destPos)
+    {
+        movePos = destPos;
+
+        path.FindPath(transform.position, movePos);
+        if (path.Path.Count != 0) {
+            if (MoveCoroutine != null) {
+                StopCoroutine(MoveCoroutine);
+            }
+
+            MoveCoroutine = StartCoroutine(PointMove(path.Path));
         }
     }
 
@@ -94,28 +113,36 @@ public class TankController : MonoBehaviour {
         else if (cannonAngle > 25f)
             TankCannon.transform.localRotation = Quaternion.Euler(new Vector3(25f, 0, 0));
     }
-    public IEnumerator PointMove(Vector3 Point)
+    public IEnumerator PointMove(List<Vector3> pathList)
     {
-        float distanceX = Point.x - this.transform.position.x;
-        float distanceZ = Point.z - this.transform.position.z;
-        float angle = Mathf.Atan2(distanceX, distanceZ) * Mathf.Rad2Deg;
-        Quaternion target = Quaternion.Euler(0, angle, 0);
+        foreach (var point in pathList) {
+            float distanceX = point.x - this.transform.position.x;
+            float distanceZ = point.z - this.transform.position.z;
+            float angle = Mathf.Atan2(distanceX, distanceZ) * Mathf.Rad2Deg;
+            Quaternion target = Quaternion.Euler(0, angle, 0);
 
-        while (Quaternion.Angle(this.transform.rotation, target) > 0.01f) {
-            this.transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 90f * Time.deltaTime);
-            yield return new WaitForEndOfFrame();
-        }
+            while (true) {
+                var vec3rotation = transform.rotation.eulerAngles;
+                var rotation = Quaternion.Euler(0, vec3rotation.y, 0);
+                if (Quaternion.Angle(rotation, target) <= 0.1f) {
+                    break;
+                }
 
-        while (Vector3.Distance(this.transform.position, Point) > 0.01f) {
-            Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
-            this.transform.rotation = rot;
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
-            RaycastHit hitData;
-            Physics.Raycast(transform.position, Vector3.down, out hitData);
-            if (Physics.Raycast(transform.position, Vector3.down, 2)) {
-                transform.rotation = Quaternion.FromToRotation(transform.up, hitData.normal) * transform.rotation;
+                this.transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 90f * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
             }
-            yield return new WaitForEndOfFrame();
+
+            while (Vector3.Distance(this.transform.position, point) > 0.01f) {
+                Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
+                this.transform.rotation = rot;
+                transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                RaycastHit hitData;
+                Physics.Raycast(transform.position, Vector3.down, out hitData);
+                if (Physics.Raycast(transform.position, Vector3.down, 2)) {
+                    transform.rotation = Quaternion.FromToRotation(transform.up, hitData.normal) * transform.rotation;
+                }
+                yield return new WaitForEndOfFrame();
+            }
         }
 
         MoveCoroutine = null;

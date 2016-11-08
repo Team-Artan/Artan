@@ -32,6 +32,9 @@ public class PositionGuide : MonoBehaviour {
                 var obj = Instantiate(player, transform.position, Quaternion.identity);
                 obj.SetActive(true);
                 obj.transform.position = ArtanHololensManager.Instance.GazePosition;
+                var obj2 = Instantiate(player, transform.position, Quaternion.identity);
+                obj2.SetActive(true);
+                obj2.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z+15f); ;
                 GuidePanel.SetActive(false);
                 Destroy(this.gameObject);
             }

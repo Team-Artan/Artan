@@ -96,6 +96,7 @@ public class TankController : MonoBehaviour {
         bullet.transform.rotation = Bullet.transform.rotation;
         bullet.GetComponent<MeshRenderer>().enabled = true;
         bullet.GetComponent<CapsuleCollider>().isTrigger = true;
+        bullet.transform.localScale = transform.localScale;
         Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
         bulletRigid.isKinematic = false;
         bulletRigid.AddRelativeForce(Vector3.up * power);

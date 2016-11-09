@@ -339,11 +339,6 @@ Prefab:
       propertyPath: targetTank
       value: 
       objectReference: {fileID: 816628401}
-    - target: {fileID: 114000011190817172, guid: 39216df08e16f35468e0d4f53b641784,
-        type: 2}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 39216df08e16f35468e0d4f53b641784, type: 2}
   m_IsPrefabParent: 0

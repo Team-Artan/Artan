@@ -5,13 +5,15 @@ public class Health_UI : MonoBehaviour {
 
     public GameObject targetTank;
     public float fullHP = 100;
+    public float fullMove = 100;
     GameObject HPSurface;
     GameObject HP_Bar;
     GameObject Move_Bar;
     float HP;
+
+    //현재 상태를 알려줌. Move 와 Stop
     string cur_state;
-    string temp_state;
-	// Use this for initialization
+    // Use this for initialization
 	void Start () {
         HPSurface = GameObject.Find("HP_Surface");
         HP_Bar = GameObject.Find("HP_Bar");
@@ -23,27 +25,28 @@ public class Health_UI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         transform.position = new Vector3(targetTank.transform.position.x, targetTank.transform.position.y+0.3f, targetTank.transform.position.z);
-
         ChangeUI();
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            if(cur_state == "Move")
-            {
-                cur_state = "Stop";
-            }
-            else
-            {
-                cur_state = "Move";
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GetDamaged(20);
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            GetHeal(20);
-        }
+
+        //StartCoroutine(move_damp(1f));
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    if(cur_state == "Move")
+        //    {
+        //        cur_state = "Stop";
+        //    }
+        //    else
+        //    {
+        //        cur_state = "Move";
+        //    }
+        //}
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    GetDamaged(20);
+        //}
+        //if (Input.GetKeyDown(KeyCode.H))
+        //{
+        //    GetHeal(20);
+        //}
     }
 
     public void GetDamaged(float damage)
@@ -92,6 +95,20 @@ public class Health_UI : MonoBehaviour {
             StartCoroutine(MoveUI(0));
             StartCoroutine(HealthUI(0.4f));
         }
+    }
+    public void changeStatus()
+    {
+        if(cur_state == "Move")
+        {
+            cur_state = "Stop";
+        }else
+        {
+            cur_state = "Move";
+        }
+    }
+    public void GetMove(float dec)
+    {
+        StartCoroutine(move_damp(dec));
     }
     IEnumerator HealthUI(float alpha)
     {
@@ -178,7 +195,15 @@ public class Health_UI : MonoBehaviour {
             }
         }
     }
-
+    IEnumerator move_damp(float decPerSec)
+    {
+        Image moveBar = Move_Bar.GetComponent<Image>();
+        while (moveBar.fillAmount > 0)
+        {
+            moveBar.fillAmount -= decPerSec / (fullMove * Time.frameCount);
+            yield return new WaitForSeconds(1);
+        }
+    }
  
 
 }

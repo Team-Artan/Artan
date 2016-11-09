@@ -10,7 +10,6 @@ public class TankController : MonoBehaviour {
     public GameObject TankCannon;
     public GameObject Bullet;
 
-    private Pathfinding path;
     private Coroutine MoveCoroutine;
 
     private float speed = 0.07f;
@@ -27,7 +26,6 @@ public class TankController : MonoBehaviour {
         hm = ArtanHololensManager.Instance;
         holo = GetComponent<HololensTarget>();
         movePos = new Vector3();
-        path = GetComponent<Pathfinding>();
     }
 
     // Update is called once per frame
@@ -41,7 +39,7 @@ public class TankController : MonoBehaviour {
                 Shoot(100f, 0);
             }
 
-            Vector3 deltaPos = new Vector3(deltaX, 0 , deltaY);
+            Vector3 deltaPos = new Vector3(deltaX, 0, deltaY);
             HeadRotate(deltaPos);
 
             if (Input.GetMouseButtonUp(0)) {
@@ -81,14 +79,11 @@ public class TankController : MonoBehaviour {
     {
         movePos = destPos;
 
-        path.FindPath(transform.position, movePos);
-        if (path.Path.Count != 0) {
-            if (MoveCoroutine != null) {
-                StopCoroutine(MoveCoroutine);
-            }
-
-            MoveCoroutine = StartCoroutine(PointMove(path.Path));
+        if (MoveCoroutine != null) {
+            StopCoroutine(MoveCoroutine);
         }
+
+//        MoveCoroutine = StartCoroutine(PointMove(path.Path));
     }
 
     public void Shoot(float power, int bounceCount)
@@ -115,39 +110,5 @@ public class TankController : MonoBehaviour {
             TankCannon.transform.localRotation = Quaternion.Euler(new Vector3(-25f, 0, 0));
         else if (cannonAngle > 25f)
             TankCannon.transform.localRotation = Quaternion.Euler(new Vector3(25f, 0, 0));
-    }
-    public IEnumerator PointMove(List<Vector3> pathList)
-    {
-        foreach (var point in pathList) {
-            float distanceX = point.x - this.transform.position.x;
-            float distanceZ = point.z - this.transform.position.z;
-            float angle = Mathf.Atan2(distanceX, distanceZ) * Mathf.Rad2Deg;
-            Quaternion target = Quaternion.Euler(0, angle, 0);
-
-            while (true) {
-                var vec3rotation = transform.rotation.eulerAngles;
-                var rotation = Quaternion.Euler(0, vec3rotation.y, 0);
-                if (Quaternion.Angle(rotation, target) <= 0.1f) {
-                    break;
-                }
-
-                this.transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 90f * Time.deltaTime);
-                yield return new WaitForEndOfFrame();
-            }
-
-            while (Vector3.Distance(this.transform.position, point) > 0.01f) {
-                Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
-                this.transform.rotation = rot;
-                transform.Translate(Vector3.forward * speed * Time.deltaTime);
-                RaycastHit hitData;
-                Physics.Raycast(transform.position, Vector3.down, out hitData);
-                if (Physics.Raycast(transform.position, Vector3.down, 2)) {
-                    transform.rotation = Quaternion.FromToRotation(transform.up, hitData.normal) * transform.rotation;
-                }
-                yield return new WaitForEndOfFrame();
-            }
-        }
-
-        MoveCoroutine = null;
     }
 }

@@ -440,8 +440,6 @@ namespace Pathfinding {
 
 		/** Generates a navmesh. Based on the supplied vertices and triangles */
 		void GenerateNodes (Vector3[] vectorVertices, int[] triangles, out Vector3[] originalVertices, out Int3[] vertices) {
-			Profiler.BeginSample("Init");
-
 			if (vectorVertices.Length == 0 || triangles.Length == 0) {
 				originalVertices = vectorVertices;
 				vertices = new Int3[0];
@@ -460,10 +458,7 @@ namespace Pathfinding {
 			var hashedVerts = new Dictionary<Int3, int>();
 
 			var newVertices = new int[vertices.Length];
-
-			Profiler.EndSample();
-			Profiler.BeginSample("Hashing");
-
+            
 			for (int i = 0; i < vertices.Length; i++) {
 				if (!hashedVerts.ContainsKey(vertices[i])) {
 					newVertices[c] = i;
@@ -485,10 +480,7 @@ namespace Pathfinding {
 				vertices[i] = totalIntVertices[newVertices[i]];
 				originalVertices[i] = vectorVertices[newVertices[i]];
 			}
-
-			Profiler.EndSample();
-			Profiler.BeginSample("Constructing Nodes");
-
+            
 			nodes = new TriangleMeshNode[triangles.Length/3];
 
 			int graphIndex = active.astarData.GetGraphIndex(this);
@@ -529,8 +521,6 @@ namespace Pathfinding {
 				node.UpdatePositionFromVertices();
 			}
 
-			Profiler.EndSample();
-
 			var sides = new Dictionary<Int2, TriangleMeshNode>();
 
 			for (int i = 0, j = 0; i < triangles.Length; j += 1, i += 3) {
@@ -538,9 +528,7 @@ namespace Pathfinding {
 				sides[new Int2(triangles[i+1], triangles[i+2])] = nodes[j];
 				sides[new Int2(triangles[i+2], triangles[i+0])] = nodes[j];
 			}
-
-			Profiler.BeginSample("Connecting Nodes");
-
+            
 			var connections = new List<MeshNode>();
 			var connectionCosts = new List<uint>();
 
@@ -562,12 +550,7 @@ namespace Pathfinding {
 				node.connectionCosts = connectionCosts.ToArray();
 			}
 
-			Profiler.EndSample();
-			Profiler.BeginSample("Rebuilding BBTree");
-
 			RebuildBBTree(this);
-
-			Profiler.EndSample();
 		}
 
 		/** Rebuilds the BBTree on a NavGraph.

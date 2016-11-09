@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -842,73 +842,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1000013073257200, guid: baf42800fb7df6d4497ebe00decc2d4c,
     type: 2}
   m_PrefabInternal: {fileID: 317613336}
---- !u!114 &1920596124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1920596123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9883c74c73d364d8869cae4f01a0e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Path: []
-  PathType: 0
-  JS: 0
---- !u!1 &1972524080
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1972524082}
-  - component: {fileID: 1972524081}
-  m_Layer: 0
-  m_Name: Pathfinder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1972524081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1972524080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c4acf42fa4d81a498faec7fa36593cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Tilesize: 0.1
-  MaxFalldownHeight: 1
-  ClimbLimit: 0.1
-  HeuristicAggression: 0
-  HighestPoint: 100
-  LowestPoint: -50
-  MapStartPosition: {x: -10, y: -10}
-  MapEndPosition: {x: 10, y: 10}
-  DisallowedTags: []
-  IgnoreTags: []
-  MoveDiagonal: 1
-  DrawMapInEditor: 1
-  CheckFullTileSize: 1
---- !u!4 &1972524082
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1972524080}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8678565, y: 0.4076519, z: 0.92777634}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2052942507
 GameObject:
   m_ObjectHideFlags: 0

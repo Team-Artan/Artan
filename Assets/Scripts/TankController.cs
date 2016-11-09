@@ -15,6 +15,8 @@ public class TankController : MonoBehaviour {
 
     private float speed = 0.07f;
 
+    public GameObject hpContent;
+
     private ArtanHololensManager hm;
     private HololensTarget holo;
     private Vector3 movePos;
@@ -36,10 +38,10 @@ public class TankController : MonoBehaviour {
             float deltaY = Input.GetAxis("Vertical");
 
             if (Input.GetKeyUp(KeyCode.Space)) {
-                Shoot(1000f, 0);
+                Shoot(100f, 0);
             }
 
-            Vector3 deltaPos = new Vector3(deltaX, deltaY, 0);
+            Vector3 deltaPos = new Vector3(deltaX, 0 , deltaY);
             HeadRotate(deltaPos);
 
             if (Input.GetMouseButtonUp(0)) {
@@ -95,7 +97,7 @@ public class TankController : MonoBehaviour {
         bullet.transform.position = Bullet.transform.position;
         bullet.transform.rotation = Bullet.transform.rotation;
         bullet.GetComponent<MeshRenderer>().enabled = true;
-        bullet.GetComponent<CapsuleCollider>().isTrigger = true;
+        bullet.GetComponent<CapsuleCollider>().isTrigger = false;
         bullet.transform.localScale = transform.localScale;
         Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
         bulletRigid.isKinematic = false;

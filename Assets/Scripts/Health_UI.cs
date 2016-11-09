@@ -24,7 +24,7 @@ public class Health_UI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.position = new Vector3(targetTank.transform.position.x, targetTank.transform.position.y+0.3f, targetTank.transform.position.z);
+        transform.position = new Vector3(targetTank.transform.position.x, targetTank.transform.position.y, targetTank.transform.position.z);
         ChangeUI();
 
         //StartCoroutine(move_damp(1f));

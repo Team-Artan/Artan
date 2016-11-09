@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class TankController : MonoBehaviour {
-
     public GameObject TankHead;
     public GameObject TankCannon;
     public GameObject Bullet;
@@ -20,12 +20,16 @@ public class TankController : MonoBehaviour {
     private HololensTarget holo;
     private Vector3 movePos;
 
+    private Seeker seeker;
+
     // Use this for initialization
     void Start()
     {
         hm = ArtanHololensManager.Instance;
         holo = GetComponent<HololensTarget>();
         movePos = new Vector3();
+
+        seeker = GetComponent<Seeker>();
     }
 
     // Update is called once per frame
@@ -75,15 +79,26 @@ public class TankController : MonoBehaviour {
         }
     }
 
+    private void OnPathComplete(Path p)
+    {
+        Debug.Log("Yay, we got a path back. Did it have an error? " + p.error);
+        if (p.error) {
+            Debug.Log("Error : " + p.errorLog);
+        }
+    }
+
     private void MoveTo(Vector3 destPos)
     {
         movePos = destPos;
+
+        seeker.StartPath(transform.position, destPos, OnPathComplete);
+        return;
 
         if (MoveCoroutine != null) {
             StopCoroutine(MoveCoroutine);
         }
 
-//        MoveCoroutine = StartCoroutine(PointMove(path.Path));
+        // MoveCoroutine = StartCoroutine(PointMove(path.Path));
     }
 
     public void Shoot(float power, int bounceCount)

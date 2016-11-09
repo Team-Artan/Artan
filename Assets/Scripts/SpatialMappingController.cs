@@ -23,5 +23,7 @@ public class SpatialMappingController : MonoBehaviour {
         smm.StopObserver();
         guide.gameObject.SetActive(true);
         canvas.gameObject.SetActive(true);
+
+        AstarPath.active.Scan();
     }
 }

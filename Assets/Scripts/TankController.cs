@@ -72,7 +72,8 @@ public class TankController : MonoBehaviour {
 
             // Rotate
             if (hm.Holding == true) {
-                HeadRotate(hm.TapHandDeltaMove);
+                //HeadRotate(hm.TapHandDeltaMove);
+                HeadRotate2();
             }
 
             Debug.DrawRay(transform.position, movePos - transform.position);
@@ -122,6 +123,32 @@ public class TankController : MonoBehaviour {
         TankHead.transform.Rotate(new Vector3(0, deltaPos.x, 0));
         TankCannon.transform.Rotate(new Vector3(deltaPos.z, 0, 0));
         float cannonAngle = TankCannon.transform.localRotation.eulerAngles.x;
+        if (cannonAngle > 180f)
+            cannonAngle -= 360;
+        if (cannonAngle < -25f)
+            TankCannon.transform.localRotation = Quaternion.Euler(new Vector3(-25f, 0, 0));
+        else if (cannonAngle > 25f)
+            TankCannon.transform.localRotation = Quaternion.Euler(new Vector3(25f, 0, 0));
+    }
+
+    public void HeadRotate2()
+    {
+        float cannonAngle = TankCannon.transform.localRotation.eulerAngles.x;
+        if (hm.TapHandDeltaMove.x > 0.005f)
+        {
+            TankHead.transform.Rotate(new Vector3(0, 1f, 0),Space.Self);
+        }else if(hm.TapHandDeltaMove.x < -0.005f)
+        {
+            TankHead.transform.Rotate(new Vector3(0, -1f, 0), Space.Self);
+        }
+
+        if (hm.TapHandDeltaMove.y > 0)
+        {
+            TankCannon.transform.Rotate(new Vector3(-1f, 0, 0), Space.Self);
+        }else if(hm.TapHandDeltaMove.y < 0)
+        {
+            TankCannon.transform.Rotate(new Vector3(1f, 0, 0), Space.Self);
+        }
         if (cannonAngle > 180f)
             cannonAngle -= 360;
         if (cannonAngle < -25f)

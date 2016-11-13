@@ -119,4 +119,9 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
     {
         cmdList.Add(cmd);
     }
+
+    public bool GetVoiceCommand(string cmd)
+    {
+        return cmdList.Contains(cmd);
+    }
 }

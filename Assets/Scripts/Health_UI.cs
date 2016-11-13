@@ -135,7 +135,7 @@ public class Health_UI : MonoBehaviour {
     }
     IEnumerator MoveUI(float alpha)
     {
-        Image moveBar = Move_Bar.GetComponent<Image>();
+        Image moveBar = HP_Bar.GetComponent<Image>();
         if(moveBar.color.a < alpha)
         {
             while(moveBar.color.a < alpha)

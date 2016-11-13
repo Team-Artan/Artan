@@ -66,7 +66,7 @@ public class TankController : MonoBehaviour {
         }
         else {
             // Move
-            if (hm.Tapped == true) {
+            if (hm.Tapped == true || hm.GetVoiceCommand("select") == true) {
                 MoveTo(hm.GazePosition);
             }
 
@@ -84,6 +84,9 @@ public class TankController : MonoBehaviour {
         Debug.Log("Yay, we got a path back. Did it have an error? " + p.error);
         if (p.error) {
             Debug.Log("Error : " + p.errorLog);
+        }
+        else {
+            Debug.Log("path : " + p.path.Count);
         }
     }
 

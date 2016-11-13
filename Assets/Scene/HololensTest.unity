@@ -163,6 +163,24 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
+  - Keyword: Select
+    KeyCode: 0
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 281597922}
+          m_MethodName: OnVoiceCommand
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Select
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
 --- !u!1001 &317613336
 Prefab:
   m_ObjectHideFlags: 0
@@ -492,7 +510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   astarData:
-    dataString: AgAAAA1ncmFwaDAuYmluYXJ5yAAAABt0wU5mNs7Uu90Dvmtz4AMAAAAAAQtSZWNhc3RHcmFwaAEBAACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPwrXozwAAABAzcxMPQrXIzwK1yM8AADwQQAAoEGAAAAAECcAAAAAAAAAAAABAQEAACBBAAAAAAAAAAAAAAAAAADIQgAAIEIAAMhC/////wAAAAABAQMAAAAAAAAACtcjPBAnAAABC21ldGEuYmluYXJ5YQAAAAJBKgMAAAAIAAAAAQAAAP////8BAAAAAQAAACFkNGNlMzY2NjRlYzE3NDFiLTAzZTA3MzZiYmUwM2RkYmIBAAAAF1BhdGhmaW5kaW5nLlJlY2FzdEdyYXBoAQAAAAAAAAA=
+    dataString: AgAAAA1ncmFwaDAuYmluYXJ5yAAAABt0wU5mNs7Uu90Dvmtz4AMAAAAAAQtSZWNhc3RHcmFwaAEBAACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAACAP83MzD0AAABAzcxMPQrXIzwK1yM8AADwQQAAoEGAAAAA0AcAAAAAAAAAAAABAQEAACBBAAAAAAAAAAAAAAAAAADIQgAAIEIAAMhC/////wAAAAABAQMAAAC8dBM8CtcjPNAHAAABC21ldGEuYmluYXJ5YQAAAAJBKgMAAAAIAAAAAQAAAP////8BAAAAAQAAACFkNGNlMzY2NjRlYzE3NDFiLTAzZTA3MzZiYmUwM2RkYmIBAAAAF1BhdGhmaW5kaW5nLlJlY2FzdEdyYXBoAQAAAAAAAAA=
     upgradeData: 
     data_backup: 
     file_cachedStartup: {fileID: 0}

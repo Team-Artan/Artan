@@ -492,7 +492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   astarData:
-    dataString: AQAAAAttZXRhLmJpbmFyeSMAAAACQSoDAAAACAAAAAEAAAD/////AAAAAAAAAAAAAAAAAAAAAA==
+    dataString: AgAAAA1ncmFwaDAuYmluYXJ5yAAAABt0wU5mNs7Uu90Dvmtz4AMAAAAAAQtSZWNhc3RHcmFwaAEBAACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPwrXozwAAABAzcxMPQrXIzwK1yM8AADwQQAAoEGAAAAAECcAAAAAAAAAAAABAQEAACBBAAAAAAAAAAAAAAAAAADIQgAAIEIAAMhC/////wAAAAABAQMAAAAAAAAACtcjPBAnAAABC21ldGEuYmluYXJ5YQAAAAJBKgMAAAAIAAAAAQAAAP////8BAAAAAQAAACFkNGNlMzY2NjRlYzE3NDFiLTAzZTA3MzZiYmUwM2RkYmIBAAAAF1BhdGhmaW5kaW5nLlJlY2FzdEdyYXBoAQAAAAAAAAA=
     upgradeData: 
     data_backup: 
     file_cachedStartup: {fileID: 0}
@@ -556,8 +556,8 @@ MonoBehaviour:
   - 31
   heuristic: 2
   heuristicScale: 1
-  threadCount: 0
-  maxFrameTime: 1
+  threadCount: -2
+  maxFrameTime: 10
   minAreaSize: 0
   limitGraphUpdates: 1
   maxGraphUpdateFreq: 0.2

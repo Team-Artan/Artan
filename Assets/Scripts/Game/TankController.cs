@@ -69,11 +69,14 @@ public class TankController : MonoBehaviour {
             if (hm.Tapped == true || hm.GetVoiceCommand("select") == true) {
                 MoveTo(hm.GazePosition);
             }
-
             // Rotate
-            if (hm.Holding == true) {
+            else if (hm.Holding == true) {
                 //HeadRotate(hm.TapHandDeltaMove);
                 HeadRotate2();
+            }
+            // Attack
+            else if(hm.GetVoiceCommand("fire") == true) {
+                Shoot(100, 0);
             }
 
             Debug.DrawRay(transform.position, movePos - transform.position);

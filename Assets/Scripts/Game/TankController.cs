@@ -40,55 +40,10 @@ public class TankController : MonoBehaviour {
         // State
         if (unit.IsDead == true) {
             GameManager.Instance.DestroyUnit(unit);
+            return;
         }
 
-        // Control
-        if (hm == null) {
-            float deltaX = Input.GetAxis("Horizontal");
-            float deltaY = Input.GetAxis("Vertical");
-
-            if (Input.GetKeyUp(KeyCode.Space)) {
-                Shoot(100f, 0);
-            }
-
-            Vector3 deltaPos = new Vector3(deltaX, 0, deltaY);
-            HeadRotate(deltaPos);
-
-            if (Input.GetMouseButtonUp(0)) {
-                Vector3 pos = Input.mousePosition;
-                Ray ray = Camera.main.ScreenPointToRay(pos);
-                RaycastHit[] hits = Physics.RaycastAll(ray);
-
-                for (int i = 0; i < hits.Length; ++i) {
-                    RaycastHit hit = hits[i];
-
-                    if (hit.collider.gameObject.name.Equals("Terrain")) {
-                        if (MoveCoroutine != null) {
-                            StopCoroutine(MoveCoroutine);
-                        }
-
-                        MoveTo(hit.point);
-                    }
-                }
-            }
-        }
-        else {
-            // Move
-            if (hm.Tapped == true || hm.GetVoiceCommand("select") == true) {
-                MoveTo(hm.GazePosition);
-            }
-            // Rotate
-            else if (hm.Holding == true) {
-                //HeadRotate(hm.TapHandDeltaMove);
-                HeadRotate2();
-            }
-            // Attack
-            else if (hm.GetVoiceCommand("fire") == true) {
-                Shoot(100, 0);
-            }
-
-            Debug.DrawRay(transform.position, movePos - transform.position);
-        }
+        HandleInput();
     }
 
     private void OnPathComplete(Path p)
@@ -203,5 +158,55 @@ public class TankController : MonoBehaviour {
     {
         unit.Damage(damage);
         hpContent.GetComponent<Health_UI>().GetDamaged(damage);
+    }
+
+    public void HandleInput()
+    {
+        if (hm == null) {
+            float deltaX = Input.GetAxis("Horizontal");
+            float deltaY = Input.GetAxis("Vertical");
+
+            if (Input.GetKeyUp(KeyCode.Space)) {
+                Shoot(100f, 0);
+            }
+
+            Vector3 deltaPos = new Vector3(deltaX, 0, deltaY);
+            HeadRotate(deltaPos);
+
+            if (Input.GetMouseButtonUp(0)) {
+                Vector3 pos = Input.mousePosition;
+                Ray ray = Camera.main.ScreenPointToRay(pos);
+                RaycastHit[] hits = Physics.RaycastAll(ray);
+
+                for (int i = 0; i < hits.Length; ++i) {
+                    RaycastHit hit = hits[i];
+
+                    if (hit.collider.gameObject.name.Equals("Terrain")) {
+                        if (MoveCoroutine != null) {
+                            StopCoroutine(MoveCoroutine);
+                        }
+
+                        MoveTo(hit.point);
+                    }
+                }
+            }
+        }
+        else {
+            // Move
+            if (hm.Tapped == true || hm.GetVoiceCommand("select") == true) {
+                MoveTo(hm.GazePosition);
+            }
+            // Rotate
+            else if (hm.Holding == true) {
+                //HeadRotate(hm.TapHandDeltaMove);
+                HeadRotate2();
+            }
+            // Attack
+            else if (hm.GetVoiceCommand("fire") == true) {
+                Shoot(100, 0);
+            }
+
+            Debug.DrawRay(transform.position, movePos - transform.position);
+        }
     }
 }

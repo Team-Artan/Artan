@@ -37,4 +37,9 @@ public class Unit : MonoBehaviour {
             IsDead = true;
         }
     }
+
+    public void SetPosition(Vector3 pos)
+    {
+        transform.position = pos;
+    }
 }

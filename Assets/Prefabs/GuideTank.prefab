@@ -345,12 +345,12 @@ GameObject:
   - component: {fileID: 65459591013957242}
   - component: {fileID: 114044333437710988}
   m_Layer: 2
-  m_Name: TankGuide
+  m_Name: GuideTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1000012352644870
 GameObject:
   m_ObjectHideFlags: 1
@@ -2550,5 +2550,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   standardHeight: 1
   material: {fileID: 2100000, guid: 87650d0e55bb96045bc916366d155073, type: 2}
-  GuidePanel: {fileID: 0}
-  player: {fileID: 0}

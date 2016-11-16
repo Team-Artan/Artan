@@ -146,5 +146,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ae7cc1bbd43f84e950f25fe9737c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
-  guide: {fileID: 0}
+  unitPrefab: {fileID: 114692285743989376, guid: baf42800fb7df6d4497ebe00decc2d4c,
+    type: 2}
+  guideTankPrefab: {fileID: 114044333437710988, guid: 65a41cae48112c748bcc87a6ac89f626,
+    type: 2}
+  guideCanvasPrefab: {fileID: 223155742462374434, guid: a03dc91bb345b4e448c1454398a52b93,
+    type: 2}

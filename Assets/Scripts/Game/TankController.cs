@@ -37,6 +37,12 @@ public class TankController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        // State
+        if (unit.IsDead == true) {
+            GameManager.Instance.DestroyUnit(unit);
+        }
+
+        // Control
         if (hm == null) {
             float deltaX = Input.GetAxis("Horizontal");
             float deltaY = Input.GetAxis("Vertical");

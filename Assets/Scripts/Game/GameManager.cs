@@ -91,6 +91,10 @@ public class GameManager : MonoBehaviour {
             var control = unit.GetComponent<TankController>();
             control.HandleInput();
 
+            while (control.TurnEnded == false) {
+                yield return new WaitForEndOfFrame();
+            }
+
             yield return new WaitForEndOfFrame();
         }
 

@@ -23,6 +23,8 @@ public class TankController : MonoBehaviour {
     private Seeker seeker;
     private Unit unit;
 
+    public bool TurnEnded { get; private set; }
+
     // Use this for initialization
     void Start()
     {
@@ -160,6 +162,11 @@ public class TankController : MonoBehaviour {
         hpContent.GetComponent<Health_UI>().GetDamaged(damage);
     }
 
+    public void BeginTurn()
+    {
+        TurnEnded = false;
+    }
+
     public void HandleInput()
     {
         if (hm == null) {
@@ -204,6 +211,10 @@ public class TankController : MonoBehaviour {
             // Attack
             else if (hm.GetVoiceCommand("fire") == true) {
                 Shoot(100, 0);
+            }
+            // Force end turn
+            else if (hm.GetVoiceCommand("end turn") == true) {
+                TurnEnded = true;
             }
 
             Debug.DrawRay(transform.position, movePos - transform.position);

@@ -19,7 +19,7 @@ public class Player : MonoBehaviour {
 
     public void RemoveUnit(Unit unit)
     {
-        if(unitList.ContainsKey(unit.ID) == true{
+        if (unitList.ContainsKey(unit.ID) == true) {
             unitList.Remove(unit.ID);
         }
     }

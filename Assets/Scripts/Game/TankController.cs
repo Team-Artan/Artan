@@ -77,7 +77,7 @@ public class TankController : MonoBehaviour {
                 HeadRotate2();
             }
             // Attack
-            else if(hm.GetVoiceCommand("fire") == true) {
+            else if (hm.GetVoiceCommand("fire") == true) {
                 Shoot(100, 0);
             }
 
@@ -139,19 +139,17 @@ public class TankController : MonoBehaviour {
     public void HeadRotate2()
     {
         float cannonAngle = TankCannon.transform.localRotation.eulerAngles.x;
-        if (hm.TapHandDeltaMove.x > 0.005f)
-        {
-            TankHead.transform.Rotate(new Vector3(0, 1f, 0),Space.Self);
-        }else if(hm.TapHandDeltaMove.x < -0.005f)
-        {
+        if (hm.TapHandDeltaMove.x > 0.005f) {
+            TankHead.transform.Rotate(new Vector3(0, 1f, 0), Space.Self);
+        }
+        else if (hm.TapHandDeltaMove.x < -0.005f) {
             TankHead.transform.Rotate(new Vector3(0, -1f, 0), Space.Self);
         }
 
-        if (hm.TapHandDeltaMove.y > 0)
-        {
+        if (hm.TapHandDeltaMove.y > 0) {
             TankCannon.transform.Rotate(new Vector3(-1f, 0, 0), Space.Self);
-        }else if(hm.TapHandDeltaMove.y < 0)
-        {
+        }
+        else if (hm.TapHandDeltaMove.y < 0) {
             TankCannon.transform.Rotate(new Vector3(1f, 0, 0), Space.Self);
         }
         if (cannonAngle > 180f)

@@ -25,18 +25,22 @@ public class Bullet : MonoBehaviour {
         prePosition = transform.position;
 	}
 
-    void OnCollisionEnter(Collision collision) {
+    void OnCollisionEnter(Collision collision)
+    {
+        var target = collision.gameObject;
+        var tank = target.GetComponent<TankController>();
 
-        if (!collision.gameObject.CompareTag("Bullet")&& collision.gameObject.name!="PlayerTank")    {
-            print(collision.gameObject.name);
-
+        if (target.CompareTag("Bullet") == false && tank != null) {
             Instantiate(particle, this.transform.position, Quaternion.identity);
+
             GameObject[] objects = GameObject.FindGameObjectsWithTag("Tank");
+
             foreach (GameObject obj in objects) {
                 if (Vector3.Distance(obj.transform.position, transform.position) < 0.5)
-                    obj.GetComponent<TankController>().hpContent.GetComponent<Health_UI>().GetDamaged(20);
+                    tank.Damage(20);
             }
-            Destroy(this.gameObject);
+
+            Destroy(gameObject);
         }
     }
 }

@@ -12,15 +12,16 @@ public class TankController : MonoBehaviour {
 
     private Coroutine MoveCoroutine;
 
-    private float speed = 0.07f;
-
     public GameObject hpContent;
+
+    private float speed = 0.07f;
 
     private ArtanHololensManager hm;
     private HololensTarget holo;
     private Vector3 movePos;
 
     private Seeker seeker;
+    private Unit unit;
 
     // Use this for initialization
     void Start()
@@ -30,6 +31,7 @@ public class TankController : MonoBehaviour {
         movePos = new Vector3();
 
         seeker = GetComponent<Seeker>();
+        unit = GetComponent<Unit>();
     }
 
     // Update is called once per frame
@@ -191,5 +193,11 @@ public class TankController : MonoBehaviour {
         }
 
         MoveCoroutine = null;
+    }
+
+    public void Damage(int damage)
+    {
+        unit.Damage(damage);
+        hpContent.GetComponent<Health_UI>().GetDamaged(damage);
     }
 }

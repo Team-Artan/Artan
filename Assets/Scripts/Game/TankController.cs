@@ -80,6 +80,8 @@ public class TankController : MonoBehaviour {
         bullet.GetComponent<MeshRenderer>().enabled = true;
         bullet.GetComponent<CapsuleCollider>().isTrigger = false;
         bullet.transform.localScale = transform.localScale;
+        bullet.GetComponent<Bullet>().owner = this;
+
         Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
         bulletRigid.isKinematic = false;
         bulletRigid.AddRelativeForce(Vector3.up * power);
@@ -167,6 +169,11 @@ public class TankController : MonoBehaviour {
         TurnEnded = false;
     }
 
+    public void EndTurn()
+    {
+        TurnEnded = true;
+    }
+
     public void HandleInput()
     {
         if (hm == null) {
@@ -214,7 +221,7 @@ public class TankController : MonoBehaviour {
             }
             // Force end turn
             else if (hm.GetVoiceCommand("end turn") == true) {
-                TurnEnded = true;
+                EndTurn();
             }
 
             Debug.DrawRay(transform.position, movePos - transform.position);

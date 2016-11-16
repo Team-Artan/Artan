@@ -544,7 +544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1000013136132874
 GameObject:
   m_ObjectHideFlags: 1
@@ -2744,7 +2744,7 @@ MonoBehaviour:
   TankHead: {fileID: 1000012520389712}
   TankCannon: {fileID: 1000013136132874}
   Bullet: {fileID: 1000012275039374}
-  hpContent: {fileID: 0}
+  hpContent: {fileID: 1618933290420846}
 --- !u!114 &114000013030924398
 MonoBehaviour:
   m_ObjectHideFlags: 1

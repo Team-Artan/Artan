@@ -104,19 +104,23 @@ public class TankController : MonoBehaviour {
     public void HeadRotate2()
     {
         float cannonAngle = TankCannon.transform.localRotation.eulerAngles.x;
-        if (hm.TapHandDeltaMove.x > 0.005f) {
-            TankHead.transform.Rotate(new Vector3(0, 1f, 0), Space.Self);
+        if (Mathf.Abs(hm.TapHandDeltaMove.x) > Mathf.Abs(hm.TapHandDeltaMove.y)) {
+            if (hm.TapHandDeltaMove.x >= 0f) {
+                TankHead.transform.Rotate(new Vector3(0, 1f, 0), Space.Self);
+            }
+            else {
+                TankHead.transform.Rotate(new Vector3(0, -1f, 0), Space.Self);
+            }
         }
-        else if (hm.TapHandDeltaMove.x < -0.005f) {
-            TankHead.transform.Rotate(new Vector3(0, -1f, 0), Space.Self);
+        else {
+            if (hm.TapHandDeltaMove.y >= 0) {
+                TankCannon.transform.Rotate(new Vector3(-1f, 0, 0), Space.Self);
+            }
+            else {
+                TankCannon.transform.Rotate(new Vector3(1f, 0, 0), Space.Self);
+            }
         }
 
-        if (hm.TapHandDeltaMove.y > 0) {
-            TankCannon.transform.Rotate(new Vector3(-1f, 0, 0), Space.Self);
-        }
-        else if (hm.TapHandDeltaMove.y < 0) {
-            TankCannon.transform.Rotate(new Vector3(1f, 0, 0), Space.Self);
-        }
         if (cannonAngle > 180f)
             cannonAngle -= 360;
         if (cannonAngle < -25f)

@@ -64,17 +64,17 @@ public class TankController : MonoBehaviour {
 
     public void Shoot(float power, int bounceCount)
     {
-        GameObject bullet = Instantiate(Bullet) as GameObject;
+        var bullet = (Instantiate(Bullet) as GameObject).GetComponent<Bullet>();
         bullet.transform.position = Bullet.transform.position;
         bullet.transform.rotation = Bullet.transform.rotation;
+        bullet.transform.localScale = transform.localScale;
+
         bullet.GetComponent<MeshRenderer>().enabled = true;
         bullet.GetComponent<CapsuleCollider>().isTrigger = false;
-        bullet.transform.localScale = transform.localScale;
-        bullet.GetComponent<Bullet>().owner = this;
+        bullet.GetComponent<Rigidbody>().isKinematic = true;
 
-        Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
-        bulletRigid.isKinematic = false;
-        bulletRigid.AddRelativeForce(Vector3.up * power);
+        bullet.owner = this;
+        // TODO : bullet initial velocity
     }
 
     public void HeadRotate(Vector3 deltaPos)
@@ -176,7 +176,7 @@ public class TankController : MonoBehaviour {
             float deltaY = Input.GetAxis("Vertical");
 
             if (Input.GetKeyUp(KeyCode.Space)) {
-                Shoot(100f, 0);
+                Shoot(30, 0);
             }
 
             Vector3 deltaPos = new Vector3(deltaX, 0, deltaY);
@@ -212,7 +212,7 @@ public class TankController : MonoBehaviour {
             }
             // Attack
             else if (hm.GetVoiceCommand("fire") == true) {
-                Shoot(100, 0);
+                Shoot(30, 0);
             }
             // Force end turn
             else if ((hm.TargetObject != null && hm.TargetObject.gameObject == gameObject) ||

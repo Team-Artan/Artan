@@ -16,9 +16,9 @@ public class NoteTrigger : MonoBehaviour {
                 GameObject obj = Instantiate(this.gameObject, this.transform.parent) as GameObject;
                 obj.transform.localPosition = this.transform.localPosition;
                 obj.transform.localRotation = this.transform.localRotation;
-                obj.transform.Translate(new Vector3(i, 0, 0), Space.Self);
+                obj.transform.Translate(new Vector3(i/1.25f, 0, 0), Space.Self);
                 keyboard.Add(obj);
-            }
+            } 
             //Destroy(this.gameObject);
         }
     }

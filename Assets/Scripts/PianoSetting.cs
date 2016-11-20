@@ -11,22 +11,23 @@ public class PianoSetting : MonoBehaviour {
     public Material halfMaterial;
     NoteTrigger notetrig;
     Color defaultColor;
-	// Use this for initialization
-	void Start () {
-       notetrig = standardNote.GetComponent<NoteTrigger>();
+    // Use this for initialization
+    void Start()
+    {
+        notetrig = standardNote.GetComponent<NoteTrigger>();
         defaultColor = standardNote.GetComponent<Renderer>().material.color;
         Debug.Log(defaultColor);
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
         if (!isSetup) {
             PianoField.transform.position = ArtanHololensManager.Instance.GazePosition;
-            PianoField.transform.rotation = Camera.main.transform.rotation;
+            PianoField.transform.rotation = Camera.main.transform.rotation * Quaternion.Euler(new Vector3(70,0,0));
         }else {
 
         }
-        if (Input.GetKeyDown(KeyCode.Space)&&!isSetup) {
+        if (ArtanHololensManager.Instance.Tapped&&!isSetup) {
             isSetup = true;
             this.GetComponent<MeshRenderer>().enabled = false;
             standardNote.GetComponent<MeshRenderer>().enabled = false;
@@ -34,7 +35,7 @@ public class PianoSetting : MonoBehaviour {
             StartCoroutine(PianoCoroutine());
             
             StartCoroutine(wait(8f));
-           
+            
         }
         
 
@@ -59,7 +60,7 @@ public class PianoSetting : MonoBehaviour {
                 GameObject newNote = Instantiate(noteBlock, this.transform) as GameObject;
                 newNote.transform.localPosition = standardNote.transform.localPosition;
                 newNote.transform.localRotation = standardNote.transform.localRotation;
-                newNote.transform.Translate(new Vector3((1f / 38f) * offset, 1f, 0), Space.Self);
+                newNote.transform.Translate(new Vector3((1f / 38f / 1.25f) * offset, 1f, 0), Space.Self);
                 newNote.transform.localScale = new Vector3(1f / 38f, (1f / 16f) * size, 1);
                 newNote.transform.Translate(new Vector3(0, newNote.transform.lossyScale.y/2f,0), Space.Self);
                 if (offset - Mathf.Floor(offset) > 0)
@@ -96,15 +97,7 @@ public class PianoSetting : MonoBehaviour {
                 }
                 else
                 {
-                    if (notetrig.keyboard[(int)offset + 20].GetComponent<Renderer>().material.color == defaultColor)
-                    {
-                        notetrig.keyboard[(int)offset + 20].GetComponent<Renderer>().material.color = Color.yellow;
-                        StartCoroutine(backColor((int)offset + 20, length));
-                    }
-                    else
-                    {
-                        StartCoroutine(backColor((int)offset + 20, length));
-                    }
+                    StartCoroutine(backColor((int)offset + 20, length));
                 }
             }
 
@@ -114,7 +107,6 @@ public class PianoSetting : MonoBehaviour {
     }
     IEnumerator backColor(int offset, float length)
     {
-        
         yield return StartCoroutine(lerpColor(offset,length));
         notetrig.keyboard[offset].GetComponent<Renderer>().material.color = defaultColor;
     }

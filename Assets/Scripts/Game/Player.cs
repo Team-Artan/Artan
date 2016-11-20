@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-public class Player : MonoBehaviour {
+public class Player {
     static private int nextID = 0;
 
     private Dictionary<int, Unit> unitList = new Dictionary<int, Unit>();

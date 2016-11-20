@@ -6,24 +6,26 @@ public class Health_UI : MonoBehaviour {
     public GameObject targetTank;
     public float fullHP = 100;
     public float fullMove = 100;
-    GameObject HPSurface;
-    GameObject HP_Bar;
-    GameObject Move_Bar;
+
+    public GameObject HPSurface;
+    public GameObject HP_Bar;
+
     float HP;
 
     //현재 상태를 알려줌. Move 와 Stop
     string cur_state;
     // Use this for initialization
-	void Start () {
+    void Start()
+    {
         HPSurface = GameObject.Find("HP_Surface");
         HP_Bar = GameObject.Find("HP_Bar");
-        Move_Bar = GameObject.Find("Move_Bar");
         HP = fullHP;
         cur_state = "Stop";
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         transform.position = new Vector3(targetTank.transform.position.x, targetTank.transform.position.y, targetTank.transform.position.z);
         ChangeUI();
 
@@ -54,17 +56,14 @@ public class Health_UI : MonoBehaviour {
         StopAllCoroutines();
         StartCoroutine(vibrate());
         StartCoroutine(col_dam());
-        
-        if (HP_Bar.GetComponent<Image>().fillAmount > 0)
-        {
-            if (HP_Bar.GetComponent<Image>().fillAmount - damage / fullHP >= 0)
-            {
+
+        if (HP_Bar.GetComponent<Image>().fillAmount > 0) {
+            if (HP_Bar.GetComponent<Image>().fillAmount - damage / fullHP >= 0) {
                 //HP_Bar.GetComponent<Image>().fillAmount -= damage / fullHP;
                 StartCoroutine(hp_damp(HP_Bar.GetComponent<Image>().fillAmount - damage / fullHP));
-                
+
             }
-            else
-            {
+            else {
                 //HP_Bar.GetComponent<Image>().fillAmount = 0;
                 StartCoroutine(hp_damp(0));
             }
@@ -72,94 +71,78 @@ public class Health_UI : MonoBehaviour {
     }
     public void GetHeal(float heal)
     {
-        if (HP_Bar.GetComponent<Image>().fillAmount < 1)
-        {
-            if (HP_Bar.GetComponent<Image>().fillAmount + heal / fullHP <= 1)
-            {
+        if (HP_Bar.GetComponent<Image>().fillAmount < 1) {
+            if (HP_Bar.GetComponent<Image>().fillAmount + heal / fullHP <= 1) {
                 StartCoroutine(hp_damp(HP_Bar.GetComponent<Image>().fillAmount + heal / fullHP));
             }
-            else
-            {
+            else {
                 StartCoroutine(hp_damp(1));
             }
         }
     }
     public void ChangeUI()
     {
-        if(cur_state == "Move")
-        {
+        if (cur_state == "Move") {
             StartCoroutine(MoveUI(0.4f));
             StartCoroutine(HealthUI(0));
-        }else if(cur_state == "Stop")
-        {
+        }
+        else if (cur_state == "Stop") {
             StartCoroutine(MoveUI(0));
             StartCoroutine(HealthUI(0.4f));
         }
     }
     public void changeStatus()
     {
-        if(cur_state == "Move")
-        {
+        if (cur_state == "Move") {
             cur_state = "Stop";
-        }else
-        {
+        }
+        else {
             cur_state = "Move";
         }
     }
-    public void GetMove(float dec)
-    {
-        StartCoroutine(move_damp(dec));
-    }
+
     IEnumerator HealthUI(float alpha)
     {
         Image hpbar = HP_Bar.GetComponent<Image>();
-        if(hpbar.color.a < alpha)
-        {
-            while(hpbar.color.a < alpha)
-            {
+        if (hpbar.color.a < alpha) {
+            while (hpbar.color.a < alpha) {
                 hpbar.color += new Color(0, 0, 0, 0.01f);
                 yield return null;
             }
         }
-        else if(hpbar.color.a > alpha)
-        {
-            while(hpbar.color.a > alpha)
-            {
+        else if (hpbar.color.a > alpha) {
+            while (hpbar.color.a > alpha) {
                 hpbar.color -= new Color(0, 0, 0, 0.01f);
                 yield return null;
             }
-        }else
-        {
+        }
+        else {
             yield return null;
         }
     }
     IEnumerator MoveUI(float alpha)
     {
         Image moveBar = HP_Bar.GetComponent<Image>();
-        if(moveBar.color.a < alpha)
-        {
-            while(moveBar.color.a < alpha)
-            {
+        if (moveBar.color.a < alpha) {
+            while (moveBar.color.a < alpha) {
                 moveBar.color += new Color(0, 0, 0, 0.01f);
                 yield return null;
             }
-        }else if(moveBar.color.a > alpha)
-        {
-            while(moveBar.color.a > alpha)
-            {
+        }
+        else if (moveBar.color.a > alpha) {
+            while (moveBar.color.a > alpha) {
                 moveBar.color -= new Color(0, 0, 0, 0.01f);
                 yield return null;
             }
-        }else
-        {
+        }
+        else {
             yield return null;
         }
     }
     IEnumerator vibrate()
     {
-        
-        for (int deg = 0; deg <= 1080; deg+=60)
-        {
+
+        for (int deg = 0; deg <= 1080; deg += 60) {
             transform.position += new Vector3(Mathf.Sin(deg * Mathf.Deg2Rad), 0, 0);
             deg++;
             yield return null;
@@ -168,8 +151,7 @@ public class Health_UI : MonoBehaviour {
     IEnumerator col_dam()
     {
         HPSurface.GetComponent<Image>().color = new Color(255f, 0, 0);
-        while (HPSurface.GetComponent<Image>().color.g < 255)
-        {
+        while (HPSurface.GetComponent<Image>().color.g < 255) {
             HPSurface.GetComponent<Image>().color += new Color(0, 0.05f, 0.05f, 0);
             yield return null;
         }
@@ -179,31 +161,17 @@ public class Health_UI : MonoBehaviour {
     {
         Image hpBar = HP_Bar.GetComponent<Image>();
 
-        if(hpBar.fillAmount < change)
-        {
-            while(hpBar.fillAmount < change)
-            {
+        if (hpBar.fillAmount < change) {
+            while (hpBar.fillAmount < change) {
                 hpBar.fillAmount += 0.01f;
                 yield return null;
             }
-        }else
-        {
-            while(hpBar.fillAmount > change)
-            {
+        }
+        else {
+            while (hpBar.fillAmount > change) {
                 hpBar.fillAmount -= 0.01f;
                 yield return null;
             }
         }
     }
-    IEnumerator move_damp(float decPerSec)
-    {
-        Image moveBar = Move_Bar.GetComponent<Image>();
-        while (moveBar.fillAmount > 0)
-        {
-            moveBar.fillAmount -= decPerSec / (fullMove * Time.frameCount);
-            yield return new WaitForSeconds(1);
-        }
-    }
- 
-
 }

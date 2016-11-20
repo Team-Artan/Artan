@@ -43,9 +43,9 @@ public class Bullet : MonoBehaviour {
                 if (Vector3.Distance(obj.transform.position, transform.position) < 0.5)
                     tank.Damage(20);
             }
-
-            owner.EndTurn();
-            Destroy(gameObject);
         }
+
+        owner.EndTurn();
+        Destroy(gameObject);
     }
 }

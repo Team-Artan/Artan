@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
     enum GameState {
         Begin,
+        Scanning,
         UnitPlacing,
         Playing
     }
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour {
     public int InitialUnitCount = 5;
 
     private ArtanHololensManager hm;
+    private SpatialMappingController smm;
 
     private GameState state = GameState.Begin;
     private TurnOwner turnOwner = TurnOwner.Human;
@@ -28,6 +30,10 @@ public class GameManager : MonoBehaviour {
     private Player cpu;
 
     // Unit place
+    private Unit unitPrefab;
+    private PositionGuide guideTankPrefab;
+    private Canvas guideCanvasPrefab;
+
     private PositionGuide unitGuide;
     private int curUnitPlaced = 0;
 
@@ -42,6 +48,11 @@ public class GameManager : MonoBehaviour {
     private void Start()
     {
         hm = ArtanHololensManager.Instance;
+        smm = FindObjectOfType<SpatialMappingController>();
+
+        unitPrefab = (Resources.Load("Prefabs/PlayerTank") as GameObject).GetComponent<Unit>();
+        guideTankPrefab = (Resources.Load("Prefabs/GuideTank") as GameObject).GetComponent<PositionGuide>();
+        guideCanvasPrefab = (Resources.Load("Prefabs/GuideCanvas") as GameObject).GetComponent<Canvas>();
     }
 
     private void Update()
@@ -52,8 +63,15 @@ public class GameManager : MonoBehaviour {
 
         switch (state) {
             case GameState.Begin: {
-                    if (hm.Tapped == true) {
-                        StartGame();
+                    if (hm.Tapped == true || hm.GetVoiceCommand("begin") == true) {
+                        BeginScanning();
+                    }
+                }
+                break;
+
+            case GameState.Scanning: {
+                    if (hm.Tapped == true || hm.GetVoiceCommand("finish") == true) {
+                        BeginUnitPlacing();
                     }
                 }
                 break;
@@ -80,6 +98,17 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    private void ChangeGameState(GameState state)
+    {
+        if (this.state == state) {
+            return;
+        }
+
+        this.state = state;
+
+        Debug.Log("State change : " + state.ToString());
+    }
+
     private IEnumerator HumanTurn()
     {
         var unitList = human.UnitList;
@@ -89,9 +118,10 @@ public class GameManager : MonoBehaviour {
             curUnit = unit;
 
             var control = unit.GetComponent<TankController>();
-            control.HandleInput();
+            control.BeginTurn();
 
             while (control.TurnEnded == false) {
+                control.HandleInput();
                 yield return new WaitForEndOfFrame();
             }
 
@@ -123,7 +153,14 @@ public class GameManager : MonoBehaviour {
         yield return null;
     }
 
-    public void StartGame()
+    public void BeginScanning()
+    {
+        smm.BeginMapping();
+
+        ChangeGameState(GameState.Scanning);
+    }
+
+    public void BeginUnitPlacing()
     {
         // 2 players for now, one is human and one is cpu
         human = new Player();
@@ -134,8 +171,9 @@ public class GameManager : MonoBehaviour {
 
         foreach (var player in playerList) {
             for (int i = 0; i < InitialUnitCount; ++i) {
-                var unit = (Instantiate(Resources.Load("Prefabs/PlayerTank")) as GameObject).GetComponent<Unit>();
+                var unit = Instantiate(unitPrefab).GetComponent<Unit>();
                 unit.gameObject.SetActive(false);
+
                 player.AddUnit(unit);
             }
         }
@@ -144,7 +182,7 @@ public class GameManager : MonoBehaviour {
             pair.Value.gameObject.SetActive(true);
         }
 
-        unitGuide = (Instantiate(Resources.Load("Prefabs/GuideTank")) as GameObject).GetComponent<PositionGuide>();
+        unitGuide = Instantiate(guideTankPrefab).GetComponent<PositionGuide>();
         unitGuide.tapCallback = (pos) => {
             var unit = human.UnitArray[curUnitPlaced];
             unit.gameObject.SetActive(true);
@@ -153,11 +191,13 @@ public class GameManager : MonoBehaviour {
             ++curUnitPlaced;
 
             if (curUnitPlaced == InitialUnitCount) {
-                state = GameState.Playing;
+                ChangeGameState(GameState.Playing);
+
+                Destroy(unitGuide.gameObject);
             }
         };
 
-        state = GameState.UnitPlacing;
+        ChangeGameState(GameState.UnitPlacing);
     }
 
     public void DestroyUnit(Unit unit)

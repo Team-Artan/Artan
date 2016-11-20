@@ -449,11 +449,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114833380643866862, guid: c15e8c2b7273f2248be719ad2ce4b846,
-        type: 2}
-      propertyPath: KeywordsAndResponses.Array.data[0].Response.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c15e8c2b7273f2248be719ad2ce4b846, type: 2}
   m_IsPrefabParent: 0
@@ -495,16 +490,6 @@ Prefab:
     - target: {fileID: 4644782733536582, guid: 500808ff7ba901f408b3a744bb4aaeb2, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114825385189398996, guid: 500808ff7ba901f408b3a744bb4aaeb2,
-        type: 2}
-      propertyPath: canvas
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114825385189398996, guid: 500808ff7ba901f408b3a744bb4aaeb2,
-        type: 2}
-      propertyPath: guide
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 500808ff7ba901f408b3a744bb4aaeb2, type: 2}

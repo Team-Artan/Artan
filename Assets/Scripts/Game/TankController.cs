@@ -44,20 +44,10 @@ public class TankController : MonoBehaviour {
             GameManager.Instance.DestroyUnit(unit);
             return;
         }
-
-        HandleInput();
     }
 
     private void OnPathComplete(Path p)
     {
-        Debug.Log("Yay, we got a path back. Did it have an error? " + p.error);
-        if (p.error) {
-            Debug.Log("Error : " + p.errorLog);
-        }
-        else {
-            Debug.Log("path : " + p.path.Count);
-        }
-
         if (MoveCoroutine != null) {
             StopCoroutine(MoveCoroutine);
         }
@@ -175,6 +165,7 @@ public class TankController : MonoBehaviour {
 
     public void EndTurn()
     {
+        Debug.Log("Turn ended");
         TurnEnded = true;
     }
 
@@ -224,7 +215,8 @@ public class TankController : MonoBehaviour {
                 Shoot(100, 0);
             }
             // Force end turn
-            else if (hm.GetVoiceCommand("end turn") == true) {
+            else if ((hm.TargetObject != null && hm.TargetObject.gameObject == gameObject) ||
+                hm.GetVoiceCommand("end turn") == true) {
                 EndTurn();
             }
 

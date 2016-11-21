@@ -2742,6 +2742,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad087182ed4de374eac8fc5b70d41bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalShader: {fileID: 2, guid: 0000000000000000f000000000000000, type: 0}
+  selectedShader: {fileID: 4800000, guid: 371ec4c19f48ffe4591aabb24b126140, type: 3}
+  Tank: {fileID: 1000012608983100}
   TankHead: {fileID: 1000012520389712}
   TankCannon: {fileID: 1000013136132874}
   Bullet: {fileID: 1000012275039374}
@@ -2780,6 +2783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particle: {fileID: 1567641651796168, guid: fd3bb714554ae1e44803de815357bef7, type: 2}
   owner: {fileID: 0}
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &114183459166064650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2902,7 +2906,6 @@ MonoBehaviour:
   fullMove: 100
   HPSurface: {fileID: 1296555801915546}
   HP_Bar: {fileID: 1710501999222682}
-  Move_Bar: {fileID: 0}
 --- !u!136 &136000011292816820
 CapsuleCollider:
   m_ObjectHideFlags: 1

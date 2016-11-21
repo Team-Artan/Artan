@@ -6,6 +6,10 @@ using Pathfinding;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class TankController : MonoBehaviour {
+    public Shader originalShader;
+    public Shader selectedShader;
+
+    public GameObject Tank;
     public GameObject TankHead;
     public GameObject TankCannon;
     public GameObject Bullet;
@@ -161,12 +165,14 @@ public class TankController : MonoBehaviour {
     public void BeginTurn()
     {
         TurnEnded = false;
+        Tank.GetComponent<MeshRenderer>().material.shader = selectedShader;
     }
 
     public void EndTurn()
     {
         Debug.Log("Turn ended");
         TurnEnded = true;
+        Tank.GetComponent<MeshRenderer>().material.shader = originalShader;
     }
 
     public void HandleInput()

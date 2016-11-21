@@ -19,6 +19,7 @@ public class TankController : MonoBehaviour {
     public GameObject hpContent;
 
     private float speed = 0.07f;
+    private float shootPower = 0.1f;
 
     private ArtanHololensManager hm;
     private HololensTarget holo;
@@ -79,6 +80,7 @@ public class TankController : MonoBehaviour {
 
         bullet.owner = this;
         // TODO : bullet initial velocity
+        bullet.velocity = power * Tank.transform.forward;
     }
 
     public void HeadRotate(Vector3 deltaPos)
@@ -182,7 +184,7 @@ public class TankController : MonoBehaviour {
             float deltaY = Input.GetAxis("Vertical");
 
             if (Input.GetKeyUp(KeyCode.Space)) {
-                Shoot(30, 0);
+                Shoot(shootPower, 0);
             }
 
             Vector3 deltaPos = new Vector3(deltaX, 0, deltaY);
@@ -218,7 +220,7 @@ public class TankController : MonoBehaviour {
             }
             // Attack
             else if (hm.GetVoiceCommand("fire") == true) {
-                Shoot(30, 0);
+                Shoot(shootPower, 0);
             }
             // Force end turn
             else if ((hm.TargetObject != null && hm.TargetObject.gameObject == gameObject) ||

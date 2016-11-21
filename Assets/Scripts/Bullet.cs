@@ -20,11 +20,12 @@ public class Bullet : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (rigid.velocity != Vector3.zero) {
-            Vector3 relativePos = transform.position - prePosition;
-            Quaternion rotation = Quaternion.LookRotation(relativePos);
-            transform.rotation = rotation * Quaternion.Euler(90, 0, 0);
-        }
+        transform.position += velocity * Time.fixedDeltaTime;
+
+        Vector3 relativePos = transform.position - prePosition;
+        Quaternion rotation = Quaternion.LookRotation(relativePos);
+        transform.rotation = rotation * Quaternion.Euler(90, 0, 0);
+
         prePosition = transform.position;
     }
 

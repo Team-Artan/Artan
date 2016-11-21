@@ -70,13 +70,8 @@ public class TankController : MonoBehaviour {
     public void Shoot(float power, int bounceCount)
     {
         var bullet = (Instantiate(Bullet) as GameObject).GetComponent<Bullet>();
-        bullet.transform.position = Bullet.transform.position;
+        bullet.transform.position = transform.position + transform.forward.normalized * 0.01f;
         bullet.transform.rotation = Bullet.transform.rotation;
-        bullet.transform.localScale = transform.localScale;
-
-        bullet.GetComponent<MeshRenderer>().enabled = true;
-        bullet.GetComponent<CapsuleCollider>().isTrigger = false;
-        bullet.GetComponent<Rigidbody>().isKinematic = true;
 
         bullet.owner = this;
         // TODO : bullet initial velocity

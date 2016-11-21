@@ -330,7 +330,6 @@ GameObject:
   - component: {fileID: 23000013934524582}
   - component: {fileID: 54000010232042230}
   - component: {fileID: 136000011826971904}
-  - component: {fileID: 114000013325978370}
   m_Layer: 0
   m_Name: MediumTank_Gear_Shell_01
   m_TagString: Untagged
@@ -2747,7 +2746,7 @@ MonoBehaviour:
   Tank: {fileID: 1000012608983100}
   TankHead: {fileID: 1000012520389712}
   TankCannon: {fileID: 1000013136132874}
-  Bullet: {fileID: 1000012275039374}
+  Bullet: {fileID: 1803028831188366, guid: 3e6afb739aec1f14082b09ca7e3f71dd, type: 2}
   hpContent: {fileID: 1618933290420846}
 --- !u!114 &114000013030924398
 MonoBehaviour:
@@ -2770,20 +2769,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114000013325978370
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012275039374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c12ba7c38fcedd644b87e7f194e841cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particle: {fileID: 1567641651796168, guid: fd3bb714554ae1e44803de815357bef7, type: 2}
-  owner: {fileID: 0}
-  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &114183459166064650
 MonoBehaviour:
   m_ObjectHideFlags: 1

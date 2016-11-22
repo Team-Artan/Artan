@@ -8,8 +8,6 @@ public class PositionGuide : MonoBehaviour {
     public float standardHeight = 1;
     public Material material;
 
-    public Action<Vector3> tapCallback;
-
     void Start()
     {
         hm = ArtanHololensManager.Instance;
@@ -36,12 +34,6 @@ public class PositionGuide : MonoBehaviour {
 
         if (transform.position.y > standardHeight) {
             material.color = hexToColor("1AEE8440");
-
-            if (hm.Tapped == true || hm.GetVoiceCommand("Select") == true) {
-                if (tapCallback != null) {
-                    tapCallback(hm.GazePosition);
-                }
-            }
         }
         else {
             material.color = hexToColor("F0252552");

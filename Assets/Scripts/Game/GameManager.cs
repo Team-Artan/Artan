@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour {
     private int curUnitPlaced = 0;
 
     // Turn
+    private IEnumerator turnCoroutine;
     private Unit curUnit;
 
     private void Awake()
@@ -77,21 +78,31 @@ public class GameManager : MonoBehaviour {
                 break;
 
             case GameState.UnitPlacing: {
-                    // guide.tapCallback is called
+                    if (hm.Tapped == true || hm.GetVoiceCommand("select") == true) {
+                        PlaceUnit();
+                    }
                 }
                 break;
 
             case GameState.Playing: {
-                    switch (turnOwner) {
-                        case TurnOwner.Human: {
-                                StartCoroutine(HumanTurn());
-                            }
-                            break;
+                    if (turnCoroutine == null) {
+                        switch (turnOwner) {
+                            case TurnOwner.Human: {
+                                    turnCoroutine = HumanTurn();
+                                }
+                                break;
 
-                        case TurnOwner.Cpu: {
-                                StartCoroutine(CpuTurn());
-                            }
-                            break;
+                            case TurnOwner.Cpu: {
+                                    turnCoroutine = CpuTurn();
+                                }
+                                break;
+                        }
+                    }
+                    else {
+                        bool moved = turnCoroutine.MoveNext();
+                        if (moved == false) {
+                            turnCoroutine = null;
+                        }
                     }
                 }
                 break;
@@ -122,15 +133,16 @@ public class GameManager : MonoBehaviour {
 
             while (control.TurnEnded == false) {
                 control.HandleInput();
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForFixedUpdate();
             }
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
 
         // Turn end
         turnOwner = TurnOwner.Cpu;
         curUnit = null;
+        turnCoroutine = null;
 
         yield return null;
     }
@@ -143,12 +155,13 @@ public class GameManager : MonoBehaviour {
             var unit = pair.Value;
             curUnit = unit;
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
 
         // Turn end
         turnOwner = TurnOwner.Human;
         curUnit = null;
+        turnCoroutine = null;
 
         yield return null;
     }
@@ -183,21 +196,23 @@ public class GameManager : MonoBehaviour {
         }
 
         unitGuide = Instantiate(guideTankPrefab).GetComponent<PositionGuide>();
-        unitGuide.tapCallback = (pos) => {
-            var unit = human.UnitArray[curUnitPlaced];
-            unit.gameObject.SetActive(true);
-            unit.SetPosition(pos);
-
-            ++curUnitPlaced;
-
-            if (curUnitPlaced == InitialUnitCount) {
-                ChangeGameState(GameState.Playing);
-
-                Destroy(unitGuide.gameObject);
-            }
-        };
 
         ChangeGameState(GameState.UnitPlacing);
+    }
+
+    private void PlaceUnit()
+    {
+        var unit = human.UnitArray[curUnitPlaced];
+        unit.SetPosition(hm.GazePosition);
+        unit.gameObject.SetActive(true);
+
+        ++curUnitPlaced;
+
+        if (curUnitPlaced == InitialUnitCount) {
+            ChangeGameState(GameState.Playing);
+
+            Destroy(unitGuide.gameObject);
+        }
     }
 
     public void DestroyUnit(Unit unit)

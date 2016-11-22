@@ -4,13 +4,11 @@ using UnityEngine.UI;
 public class Health_UI : MonoBehaviour {
 
     public GameObject targetTank;
-    public float fullHP = 100;
-    public float fullMove = 100;
 
     public GameObject HPSurface;
     public GameObject HP_Bar;
 
-    float HP;
+    private Unit unit;
 
     //현재 상태를 알려줌. Move 와 Stop
     string cur_state;
@@ -19,8 +17,8 @@ public class Health_UI : MonoBehaviour {
     {
         HPSurface = GameObject.Find("HP_Surface");
         HP_Bar = GameObject.Find("HP_Bar");
-        HP = fullHP;
         cur_state = "Stop";
+        unit = GetComponent<Unit>();
     }
 
     // Update is called once per frame
@@ -57,10 +55,13 @@ public class Health_UI : MonoBehaviour {
         StartCoroutine(vibrate());
         StartCoroutine(col_dam());
 
+        int maxHP = unit.MaxHP;
+        int curHP = unit.HP;
+
         if (HP_Bar.GetComponent<Image>().fillAmount > 0) {
-            if (HP_Bar.GetComponent<Image>().fillAmount - damage / fullHP >= 0) {
+            if (HP_Bar.GetComponent<Image>().fillAmount - damage / maxHP >= 0) {
                 //HP_Bar.GetComponent<Image>().fillAmount -= damage / fullHP;
-                StartCoroutine(hp_damp(HP_Bar.GetComponent<Image>().fillAmount - damage / fullHP));
+                StartCoroutine(hp_damp(HP_Bar.GetComponent<Image>().fillAmount - damage / maxHP));
 
             }
             else {
@@ -71,9 +72,11 @@ public class Health_UI : MonoBehaviour {
     }
     public void GetHeal(float heal)
     {
+        int maxHP = unit.MaxHP;
+
         if (HP_Bar.GetComponent<Image>().fillAmount < 1) {
-            if (HP_Bar.GetComponent<Image>().fillAmount + heal / fullHP <= 1) {
-                StartCoroutine(hp_damp(HP_Bar.GetComponent<Image>().fillAmount + heal / fullHP));
+            if (HP_Bar.GetComponent<Image>().fillAmount + heal / maxHP <= 1) {
+                StartCoroutine(hp_damp(HP_Bar.GetComponent<Image>().fillAmount + heal / maxHP));
             }
             else {
                 StartCoroutine(hp_damp(1));

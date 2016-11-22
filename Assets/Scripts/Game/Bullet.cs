@@ -10,11 +10,13 @@ public class Bullet : MonoBehaviour {
 
     private Vector3 prePosition = Vector3.zero;
     private Rigidbody rigid;
+    private float lifeTIme;
 
     // Use this for initialization
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
+        lifeTIme = 10.0f;
     }
 
     // Update is called once per frame
@@ -27,6 +29,11 @@ public class Bullet : MonoBehaviour {
         transform.rotation = rotation * Quaternion.Euler(90, 0, 0);
 
         prePosition = transform.position;
+
+        lifeTIme -= Time.fixedDeltaTime;
+        if (lifeTIme <= 0) {
+            Destroy(gameObject);
+        }
     }
 
     void OnCollisionEnter(Collision collision)
@@ -40,17 +47,22 @@ public class Bullet : MonoBehaviour {
         }
 
         if (target.CompareTag("Bullet") == false && tank != null && tank != owner) {
-            Instantiate(particle, this.transform.position, Quaternion.identity);
-
             GameObject[] objects = GameObject.FindGameObjectsWithTag("Tank");
 
             foreach (GameObject obj in objects) {
-                if (Vector3.Distance(obj.transform.position, transform.position) < 0.5)
+                if (obj == owner) {
+                    continue;
+                }
+
+                if (Vector3.Distance(obj.transform.position, transform.position) < 0.5) {
                     tank.Damage(20);
+                }
             }
         }
 
         owner.EndTurn();
+
+        Instantiate(particle, this.transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

@@ -95,9 +95,6 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
 
         if (gazeManager.FocusedObject != null) {
             TargetObject = gazeManager.FocusedObject.GetComponent<HololensTarget>();
-            if (TargetObject != null) {
-                TargetObject.SetHeld(true);
-            }
         }
 
         Holding = true;
@@ -106,10 +103,6 @@ public class ArtanHololensManager : Singleton<ArtanHololensManager> {
 
     private void OnHoldEnd(InteractionSourceKind source, Ray headRay)
     {
-        if (TargetObject != null) {
-            TargetObject.SetHeld(false);
-        }
-
         Holding = false;
         TargetObject = null;
         prevTapHandPosition.Set(0, 0, 0);

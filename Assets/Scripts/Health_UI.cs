@@ -10,6 +10,9 @@ public class Health_UI : MonoBehaviour {
 
     private Unit unit;
 
+    private Coroutine healthUICoroutine;
+    private Coroutine moveUICoroutine;
+
     //현재 상태를 알려줌. Move 와 Stop
     string cur_state;
     // Use this for initialization
@@ -85,13 +88,17 @@ public class Health_UI : MonoBehaviour {
     }
     public void ChangeUI()
     {
+        if (healthUICoroutine == null || moveUICoroutine == null) {
+            return;
+        }
+
         if (cur_state == "Move") {
-            StartCoroutine(MoveUI(0.4f));
-            StartCoroutine(HealthUI(0));
+            moveUICoroutine = StartCoroutine(MoveUI(0.4f));
+            healthUICoroutine = StartCoroutine(HealthUI(0));
         }
         else if (cur_state == "Stop") {
-            StartCoroutine(MoveUI(0));
-            StartCoroutine(HealthUI(0.4f));
+            moveUICoroutine = StartCoroutine(MoveUI(0));
+            healthUICoroutine = StartCoroutine(HealthUI(0.4f));
         }
     }
     public void changeStatus()
@@ -110,16 +117,17 @@ public class Health_UI : MonoBehaviour {
         if (hpbar.color.a < alpha) {
             while (hpbar.color.a < alpha) {
                 hpbar.color += new Color(0, 0, 0, 0.01f);
-                yield return null;
+                yield return new WaitForEndOfFrame();
             }
         }
         else if (hpbar.color.a > alpha) {
             while (hpbar.color.a > alpha) {
                 hpbar.color -= new Color(0, 0, 0, 0.01f);
-                yield return null;
+                yield return new WaitForEndOfFrame();
             }
         }
         else {
+            moveUICoroutine = null;
             yield return null;
         }
     }
@@ -129,16 +137,17 @@ public class Health_UI : MonoBehaviour {
         if (moveBar.color.a < alpha) {
             while (moveBar.color.a < alpha) {
                 moveBar.color += new Color(0, 0, 0, 0.01f);
-                yield return null;
+                yield return new WaitForEndOfFrame();
             }
         }
         else if (moveBar.color.a > alpha) {
             while (moveBar.color.a > alpha) {
                 moveBar.color -= new Color(0, 0, 0, 0.01f);
-                yield return null;
+                yield return new WaitForEndOfFrame();
             }
         }
         else {
+            moveUICoroutine = null;
             yield return null;
         }
     }

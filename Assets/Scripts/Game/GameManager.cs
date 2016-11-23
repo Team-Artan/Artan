@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour {
 
             case GameState.Scanning: {
                     if (hm.Tapped == true || hm.GetVoiceCommand("finish") == true) {
+                        smm.EndMapping();
                         BeginUnitPlacing();
                     }
                 }

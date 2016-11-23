@@ -19,7 +19,7 @@ public class TankController : MonoBehaviour {
     public GameObject hpContent;
 
     private float speed = 0.07f;
-    private float shootPower = 0.1f;
+    private float shootPower = 0.5f;
 
     private ArtanHololensManager hm;
     private HololensTarget holo;
@@ -74,8 +74,7 @@ public class TankController : MonoBehaviour {
         bullet.transform.rotation = Bullet.transform.rotation;
 
         bullet.owner = this;
-        // TODO : bullet initial velocity
-        bullet.velocity = power * Tank.transform.forward;
+        bullet.velocity = power * TankCannon.transform.forward;
     }
 
     public void HeadRotate(Vector3 deltaPos)

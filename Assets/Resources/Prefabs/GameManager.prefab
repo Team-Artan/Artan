@@ -51,4 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cece52036df9ba478aa9be7e0312005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialUnitCount: 5
+  shootSound: {fileID: 8300000, guid: 40b7e50d5d5787f40804b8cd968617aa, type: 3}
+  moveSound: {fileID: 8300000, guid: a428093926d01324199c8fe04bb14283, type: 3}
+  explodeSound: {fileID: 8300000, guid: ca377a5d4a069a9408f8a5cf46e0b1c7, type: 3}

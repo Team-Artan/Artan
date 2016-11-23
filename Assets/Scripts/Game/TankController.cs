@@ -75,6 +75,9 @@ public class TankController : MonoBehaviour {
 
         bullet.owner = this;
         bullet.velocity = power * TankCannon.transform.forward;
+
+        // Sound
+        AudioSource.PlayClipAtPoint(GameManager.Instance.shootSound, transform.position);
     }
 
     public void HeadRotate(Vector3 deltaPos)
@@ -121,6 +124,10 @@ public class TankController : MonoBehaviour {
 
     public IEnumerator PointMove(List<Vector3> pathList)
     {
+        var audio = GetComponent<AudioSource>();
+        audio.clip = GameManager.Instance.moveSound;
+        audio.Play();
+
         foreach (var point in pathList) {
             float distanceX = point.x - this.transform.position.x;
             float distanceZ = point.z - this.transform.position.z;
@@ -149,6 +156,7 @@ public class TankController : MonoBehaviour {
             }
         }
 
+        audio.Stop();
         MoveCoroutine = null;
     }
 

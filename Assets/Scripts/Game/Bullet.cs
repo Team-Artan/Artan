@@ -63,6 +63,7 @@ public class Bullet : MonoBehaviour {
         owner.EndTurn();
 
         Instantiate(particle, this.transform.position, Quaternion.identity);
+        AudioSource.PlayClipAtPoint(GameManager.Instance.explodeSound, transform.position);
         Destroy(gameObject);
     }
 }

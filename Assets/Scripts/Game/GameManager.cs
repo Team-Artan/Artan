@@ -30,6 +30,11 @@ public class GameManager : MonoBehaviour {
     private Player human;
     private Player cpu;
 
+    // Sound
+    public AudioClip shootSound;
+    public AudioClip moveSound;
+    public AudioClip explodeSound;
+
     // Unit place
     private Unit unitPrefab;
     private PositionGuide guideTankPrefab;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     enum GameState {
@@ -60,6 +61,14 @@ public class GameManager : MonoBehaviour {
     {
         if (hm == null) {
             return;
+        }
+
+        if (hm.GetVoiceCommand("restart") == true) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        if(hm.GetVoiceCommand("hide") == true) {
+            smm.GetComponent<HoloToolkit.Unity.SpatialMappingManager>().DrawVisualMeshes = false;
         }
 
         switch (state) {

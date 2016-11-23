@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
 
     static public GameManager Instance { get; private set; }
 
-    public int InitialUnitCount = 5;
+    private int InitialUnitCount = 2;
 
     private ArtanHololensManager hm;
     private SpatialMappingController smm;

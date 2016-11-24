@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
 
     static public GameManager Instance { get; private set; }
 
-    private int InitialUnitCount = 2;
+    private int InitialUnitCount = 1;
 
     private ArtanHololensManager hm;
     private SpatialMappingController smm;
@@ -225,6 +225,7 @@ public class GameManager : MonoBehaviour {
 
         if (curUnitPlaced == InitialUnitCount) {
             ChangeGameState(GameState.Playing);
+            smm.GetComponent<HoloToolkit.Unity.SpatialMappingManager>().DrawVisualMeshes = false;
 
             Destroy(unitGuide.gameObject);
         }
